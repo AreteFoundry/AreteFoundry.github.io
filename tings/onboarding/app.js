@@ -102,6 +102,23 @@ function suggestEmoji(name){
   const l=name.toLowerCase(); for(const k in m) if(l.includes(k)) return m[k]; return '🧡';
 }
 function emojiStyle(h){ const i=COLORS.indexOf(h.color); return i>=0?`background:${COLOR_RGB[i]};color:#fff`:''; }
+function cardTone(h){
+  if(h.done) return 'hit';
+  const s=statusFor(h);
+  if(s==='behind') return 'miss';
+  if(s==='almost') return 'warn';
+  if(h.placedToday && h.agenda) return 'plan';
+  return 'hit';
+}
+const COLOR_TINT = ['#E1F5EE','#FAEEDA','#FCEBEB','#EEEDFE','#E6F2FA','#E8F5E9','#FCE7F0'];
+function tintBg(h){ const i=COLORS.indexOf(h.color); return COLOR_TINT[i>=0?i:0]; }
+function iconOf(h){
+  if(h.type==='task') return 'ti-clipboarding-list';
+  if(h.kind==='stop') return 'ti-bolt';
+  if(h.kind==='limit') return 'ti-hash';
+  return 'ti-leaf';
+}
+function escapeHtml(s){ return String(s).replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch])); }
 function metaMinimal(h){
   if(h.type==='task') return h.dueDate?`📅 ${fmtDate(h.dueDate)}`:'someday task';
   return `${h.targetTimes}× in ${h.targetDays}d`;
@@ -172,9 +189,8 @@ function render(){
   $('#detail-pane').classList.toggle('show', state.screen==='detail');
   const empty=$('#empty');
   empty.classList.toggle('show', state.screen==='home' && state.habits.length===0 && !state.sheets.add);
-  let banner=$('#mode-banner'); if(!banner){ banner=document.createElement('span'); banner.id='mode-banner'; const head=$('#app-bar'); if(head) head.appendChild(banner); }
-  banner.textContent = state.mode==='minimal'?'minimal mode':'regular mode';
-  document.body.classList.toggle('minimal-body', state.settings.minimalMode);
+  document.body.classList.toggle('minimal-mode', state.settings.minimalMode);
+  if(!document.body.classList.contains('compact-mode')) document.body.classList.add('compact-mode');
   document.documentElement.setAttribute('data-theme', state.settings.theme||'light');
   positionHighlight(currentStepTarget());
   renderToast();
@@ -194,32 +210,51 @@ function renderList(){
   const list=$('#list');
   if(state.habits.length===0){ list.innerHTML=''; return; }
   const groups=groupHome();
-  list.innerHTML=groups.map(g=>`<div class="home-section"><div class="home-section-header" data-daybase="${g.dayBase||''}">${g.label}${g.openTime?`<span class="open-time-pill">${g.openTime}</span>`:''}</div>${g.items.map(h=>renderCard(h,g.dayBase)).join('')}
-    ${g.items.length?'':'<div class="card-spacer"></div>'}
-  </div>`).join('');
+  list.innerHTML=groups.map(g=>`<div class="section-header"${g.dayBase!=null?` data-daybase="${g.dayBase}"`:''}>${g.label}${(!state.settings.minimalMode && g.openTime)?`<span class="context-pill schedule" style="margin-left:auto"><i class="ti ti-clock" style="margin-right:2px" aria-hidden="true"></i>${g.openTime}</span>`:''}</div>${g.items.map(h=>renderCard(h,g.dayBase)).join('')}`).join('');
 }
 function renderCard(h, dayBase){
-  const tone=toneFor(h); const cls=['ting-card',tone];
-  if(state.settings.minimalMode) cls.push('minimal-card');
+  const min=state.settings.minimalMode;
+  const cls=['ting-card', cardTone(h)];
+  if(min) cls.push('minimal-card');
   if(h.done&&h.type==='task') cls.push('is-done');
   if(h.timer) cls.push('timer-running');
+  if(h.snoozed) cls.push('snoozed');
+  if(h.sample) cls.push('sample');
+  if(h.logs&&h.logs.length) cls.push('logged');
+  const ci=COLOR_RGB[COLORS.indexOf(h.color)>=0?COLORS.indexOf(h.color):0];
+  const bg=tintBg(h);
+  const placed=h.placedToday && !!h.agenda;
   let html=`<div class="swipe-row" data-id="${h.id}">`;
-  html+=`<div class="${cls.join(' ')}" data-id="${h.id}" data-daybase="${dayBase||''}">`;
-  html+=`<button class="pulse-btn ${h.emoji?'emoji-pulse':''}" data-pulse="${h.id}" aria-label="${h.type==='task'?'complete':'log'} ${h.name}" style="${emojiStyle(h)}">${h.emoji||'★'}</button>`;
-  html+=`<div class="ting-info ${h.placedToday&&h.agenda?'':'no-trail'}">`;
-  html+=`<div class="ting-main"><span class="ting-name" data-id="${h.id}">${h.name}</span>${!state.settings.minimalMode&&h.agenda?`<span class="agenda-pill">${h.agenda.label}</span>`:''}</div>`;
-  if(state.settings.minimalMode){
-    html+=`<div class="ting-cue">${cueFor(h)}</div>`;
-    html+=`<div class="ting-meta" aria-label="rhythm"><span class="context-pill">${metaMinimal(h)}</span></div>`;
-  } else {
-    html+=`<div class="ting-meta" aria-label="rhythm and plan">${richMeta(h)}</div>`;
-    html+=renderVisual(h);
-    html+=renderCardActions(h);
-    html+=renderSwipeShelves(h);
+  if(!min){
+    html+=`<div class="swipe-actions swipe-actions-left">`+
+      `<button class="swipe-action sa-pin" data-action="pin" title="${h.pinned?'unpin':'pin'}"><i class="ti ${h.pinned?'ti-pin':'ti-pin'}"></i></button>`+
+      (h.sample?`<button class="swipe-action sa-keep" data-action="keep" title="keep sample"><i class="ti ti-check"></i></button>`:``) +
+      `<button class="swipe-action sa-activity" data-action="activity" title="activity"><i class="ti ti-history"></i></button>`+
+      `<button class="swipe-action sa-timer" data-action="timer" title="session"><i class="ti ti-player-play"></i></button>`+
+      `</div>`;
   }
-  html+=`</div>`;
+  html+=`<div class="${cls.join(' ')}" data-id="${h.id}" data-daybase="${dayBase||''}" style="--card-accent:${ci};--card-priority:${ci};--emoji-bg:${bg}">`;
   html+=renderDragHandle(h);
-  html+=`</div></div>`;
+  const pulseCls = (h.emoji?'emoji-pulse ':'')+'has-emoji-bg';
+  const pulseIcon = h.emoji?`<span class="emoji-mark">${escapeHtml(h.emoji)}</span>`:`<i class="ti ${iconOf(h)}"></i>`;
+  html+=`<button class="pulse-btn ${pulseCls}" data-pulse="${h.id}" aria-label="${h.type==='task'?'complete':'log'} ${escapeHtml(h.name)}">${pulseIcon}</button>`;
+  html+=`<div class="ting-info${placed?'':' no-trail'}">`;
+  html+=`<div class="ting-main"><span class="ting-name" data-id="${h.id}">${escapeHtml(h.name)}</span>`;
+  if(!min && h.agenda){ html+=`<span class="context-pill schedule" title="planned"><i class="ti ti-clock" style="margin-right:2px" aria-hidden="true"></i>${fmtTime(h.agenda.start)}</span>`; }
+  html+=`</div>`;
+  html+=`<div class="ting-cue">${escapeHtml(cueFor(h))}</div>`;
+  html+=`<div class="ting-meta" aria-label="rhythm and plan">${min?`<span class="context-pill">${escapeHtml(metaMinimal(h))}</span>`:richMeta(h)}</div>`;
+  html+=renderVisual(h);
+  html+=renderCardActions(h);
+  html+=`</div>`;
+  if(!min){
+    html+=`<div class="swipe-actions swipe-actions-right">`+
+      `<button class="swipe-action sa-snooze" data-action="snooze" title="snooze"><i class="ti ti-moon"></i></button>`+
+      `<button class="swipe-action sa-nuke" data-action="nuke" title="remove"><i class="ti ti-trash"></i></button>`+
+    `</div>`;
+  }
+  html+=`</div>`; // ting-card
+  html+=`</div>`; // swipe-row
   return html;
 }
 function richMeta(h){
@@ -373,7 +408,8 @@ function renderDetail(){
   const shown = state.settings.minimalMode ? pages.filter(p=>!['insight','effort'].includes(p.label)) : pages;
   const status=statusFor(h);
   let out='';
-  out+=`<div class="detail-head ting-card ${toneFor(h)}"><button class="pulse-btn detail-mark" data-pulse="${h.id}" style="${emojiStyle(h)}">${h.emoji||'★'}</button>`;
+  const dci=COLOR_RGB[COLORS.indexOf(h.color)>=0?COLORS.indexOf(h.color):0];
+  out+=`<div class="detail-head ting-card ${cardTone(h)}" style="--card-accent:${dci};--emoji-bg:${tintBg(h)}"><button class="pulse-btn detail-mark emoji-pulse has-emoji-bg" data-pulse="${h.id}" aria-label="log ${h.name}"><span class="emoji-mark">${escapeHtml(h.emoji||'🧡')}</span></button>`;
   out+=`<div class="ting-info"><div class="ting-main"><span class="ting-name">${h.name}</span></div><div class="ting-cue detail-cue">${cueFor(h)}</div><div class="ting-meta">${!state.settings.minimalMode?`<span class="context-pill status ${status}">${progressFor(h)}%</span>`:`<span class="context-pill">${metaMinimal(h)}</span>`}</div></div>`;
   out+=`<div class="detail-head-actions"><button class="icon-btn" data-detail-action="done" title="${h.done?'uncomplete':'mark done'}"><i class="ti ${h.done?'ti-reload':'ti-check'}"></i></button></div></div>`;
   out+=`<div class="detail-pager-wrap"><div class="detail-pager" id="detail-pager">`;
@@ -407,27 +443,30 @@ function syncSheets(){
   const isTask=(state.addType||'habit')==='task';
   if($('#task-due-row')){ $('#task-due-row').hidden=!isTask; }
   if($('#target-help')){ $('#target-help').textContent=isTask?'Due date & time':'How often — times in N days (e.g. 2× in 7d).'; }
-  $$('#type-seg .seg-btn').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.type===(state.addType||'habit'))));
+  $$('#type-seg .seg-opt').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.v===(state.addType||'habit'))));
+  $$('#type-seg .seg-opt').forEach(b=>b.classList.toggle('on', b.dataset.v===(state.addType||'habit')));
   // settings: build skeleton once, then always sync dynamic content
   const settingsWrap=$('#settings-sheet'); if(settingsWrap){
-    settingsWrap.classList.toggle('show', !!state.sheets.settings);
-    if(settingsWrap.classList.contains('show') && !sheetsBuilt.settings){
-      const stack=document.createElement('div'); stack.className='settings-stack'; stack.id='settings-stack';
-      stack.innerHTML = renderSettingsSkeleton();
-      settingsWrap.querySelector('.sheet').insertBefore(stack, settingsWrap.querySelector('.sheet-footer')||null);
-      sheetsBuilt.settings=true;
+    settingsWrap.classList.toggle('open', !!state.sheets.settings);
+    if(settingsWrap.classList.contains('open')){
+      let stack=$('#settings-stack');
+      if(!stack){
+        stack=document.createElement('div'); stack.id='settings-stack'; stack.className='settings-stack';
+        settingsWrap.querySelector('.sheet').insertBefore(stack, settingsWrap.querySelector('.sheet-footer')||null);
+      }
+      if(!sheetsBuilt.settings){ stack.innerHTML=renderSettingsSkeleton(); sheetsBuilt.settings=true; }
+      syncSettingToggles();
     }
-    syncSettingToggles();
   }
   // samples
   const samplesWrap=$('#samples-sheet'); if(samplesWrap){
-    samplesWrap.classList.toggle('show', !!state.sheets.samples);
+    samplesWrap.classList.toggle('open', !!state.sheets.samples);
     const list=samplesWrap.querySelector('#samples-list');
-    if(samplesWrap.classList.contains('show') && list){ list.innerHTML=renderSamplesList(); }
+    if(samplesWrap.classList.contains('open') && list){ list.innerHTML=renderSamplesList(); }
   }
   // generic sheet visibility toggles
-  $('#add-sheet').classList.toggle('show', !!state.sheets.add);
-  $('#about-sheet').classList.toggle('show', !!state.sheets.about);
+  $('#add-sheet').classList.toggle('open', !!state.sheets.add);
+  $('#about-sheet').classList.toggle('open', !!state.sheets.about);
   // detail pane handled by screen === detail
 }
 function renderSettingsSkeleton(){
@@ -451,9 +490,9 @@ function renderSettingsSkeleton(){
   </div>`;
 }
 function syncSettingToggles(){
-  $$('[data-setting] .toggle').forEach(tg=>{
-    const row=tg.closest('[data-setting]'); const key=row.dataset.setting;
-    tg.classList.toggle('active', !!state.settings[key]);
+  $$('[data-setting]').forEach(row=>{
+    const key=row.dataset.setting;
+    row.setAttribute('aria-pressed', String(!!state.settings[key]));
   });
 }
 function renderBusyList(){
@@ -471,19 +510,23 @@ function renderSamplesList(){
   return samples.map(s=>`<div class="sample-item" data-sample="${s}"><span class="emoji-swatch">${s==='Morning walk'?'🏃':s==='Gym session'?'💪':s==='Write report'?'📝':'💧'}</span> ${s}</div>`).join('');
 }
 function settingRow(key,label,hint){
-  const val=state.settings[key];
-  return `<label class="setting-row item-row" data-setting="${key}">
-    <span class="setting-label">${label}</span><span class="setting-hint">${hint}</span>
-    <span class="toggle ${val?'active':''}"><span class="toggle-track"><span class="toggle-thumb"></span></span></span>
-  </label>`;
+  const val=!!state.settings[key];
+  return `<button type="button" class="setting-switch" data-setting="${key}" aria-pressed="${val}">`
+    + `<span class="ss-label"><span class="setting-label">${label}</span><span class="setting-hint">${hint}</span></span>`
+    + `<span class="switch-ui" aria-hidden="true"></span>`
+    + `</button>`;
 }
 
 /* ---------------- toast (independent of full render) ---------------- */
 function renderToast(){
-  let t=$('#toast'); if(!t){ t=document.createElement('div'); t.id='toast'; document.body.appendChild(t); }
-  if(!state.toast){ t.className='toast'; return; }
-  t.className='toast show'; t.innerHTML=`<i class="ti ti-check"></i> <span>${state.toast}</span>`;
+  const t=$('#toast'); if(!t) return;
+  if(!state.toast){ t.classList.remove('show'); t.innerHTML=''; return; }
+  t.classList.add('show');
+  t.innerHTML=`<i class="ti ti-check" aria-hidden="true"></i> <span>${state.toast}</span>`;
+  if(toastTimer) clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>{ if(!state.toast) return; state.toast=''; if($('#toast')) $('#toast').classList.remove('show'); }, 1800);
 }
+let toastTimer=null;
 function toast(msg){ state.toast=msg; renderToast(); }
 
 /* ---------------- app INTERACTIONS ---------------- */
@@ -495,7 +538,7 @@ function tryAdd(){
   const emoji=suggestEmoji(name); const color=COLORS[(state.habits.length)%COLORS.length];
   const h=makeTing({name,type,kind:type==='habit'?'build':null,emoji,
     targetTimes:Math.max(1,times),targetDays:Math.max(1,days),priority:2,color,
-    dueDate:type==='task'?(new Date($('#ting-due-date').value+'T12:00:00')):null,placedToday:type==='task'});
+    dueDate:type==='task'&&$('#ting-due-date').value?new Date($('#ting-due-date').value+'T12:00:00'):null,placedToday:type==='task'});
   if(type==='task') h.durationMinutes=60;
   state.habits.unshift(h); state.addType='habit'; $('#ting-message').value='';
   closeSheet('add'); toast('Added '+name); recomputeAgenda(); render(); coach.bump('ting-added');
@@ -543,26 +586,25 @@ function updateThemeIcon(){ const i=$('#theme-toggle i'); if(i){ i.className='ti
 /* ---------- wiring ---------- */
 function wire(){
   // static top-bar / sheet-close buttons (not rebuilt by syncSheets)
-  on('bar-open-about','click',()=>{ openSheet('about'); coach.bump('about-open'); });
-  on('bar-open-add','click',()=>openAdd());
+  on('open-about','click',()=>{ openSheet('about'); coach.bump('about-open'); });
   on('open-add','click',()=>openAdd());
-  on('bar-open-overview','click',()=>switchScreen('overview'));
   on('open-overview','click',()=>switchScreen('overview'));
   on('open-search','click',()=>toast('Search habits… type a name, topic, or place'));
-  on('bar-open-search','click',()=>toast('Search habits…'));
   on('about-close','click',()=>closeSheet('about'));
   on('about-close2','click',()=>closeSheet('about'));
   on('about-samples','click',()=>{ closeSheet('about'); openSheet('samples'); });
   on('about-settings','click',()=>{ closeSheet('about'); openSheet('settings'); coach.bump('settings-opened'); });
   on('theme-toggle','click',()=>toggleTheme());
+  on('restart-tour','click',()=>coach.restart());
   on('samples-close','click',()=>closeSheet('samples'));
   on('settings-close','click',()=>closeSheet('settings'));
-  on('add-close','click',()=>closeSheet('add'));
   on('do-cancel','click',()=>closeSheet('add'));
   on('do-save','click',()=>tryAdd());
   // delegated app click (handles rebuilt content too)
   const app=$('#app');
   app.onclick=(e)=>{
+    const segOpt=e.target.closest('#type-seg .seg-opt');
+    if(segOpt){ if(!segOpt.disabled){ state.addType=segOpt.dataset.v; syncSheets(); } e.stopPropagation(); return; }
     const settingRow=e.target.closest('[data-setting]');
     if(settingRow){ toggleSetting(settingRow.dataset.setting); e.stopPropagation(); return; }
     const colHead=e.target.closest('.about-collapse-head');
@@ -573,7 +615,7 @@ function wire(){
     if(e.target.closest('#demo-busy')){ useDemoBusy(); return; }
     if(e.target.closest('#place-add')){ addPlace($('#place-input').value.trim()); $('#place-input').value=''; return; }
     if(state.screen==='detail' && e.target.closest('.detail-head') && !e.target.closest('.detail-mark') && !e.target.closest('[data-detail-action]')){ switchScreen('home'); e.stopPropagation(); return; }
-    if(e.target.closest('.home-section-header[data-daybase="0"]')){ switchScreen('agenda'); return; }
+    if(e.target.closest('.section-header[data-daybase="0"]')){ switchScreen('agenda'); return; }
     const pulse=e.target.closest('[data-pulse]');
     if(pulse){ logTing(pulse.dataset.pulse); e.stopPropagation(); return; }
     // detail open on name tap
@@ -636,7 +678,7 @@ function seedMinimal(){
   state.settings={minimalMode:true,weekByDay:false,smarterPacking:false};
   state.habits=[]; state.busy=[]; state.places=[]; state.sheets={}; state.toast='';
   state.addType='habit'; state.detailIdx=0; sheetsBuilt.settings=false;
-  document.body.classList.add('minimal-body');
+  document.body.classList.add('minimal-mode');
 }
 function seedRegular(){
   state.mode='regular'; state.screen='home';
@@ -650,7 +692,7 @@ function seedRegular(){
   if(!state.busy.length) state.busy=[...BUSY_DEMO];
   if(!state.places.length) state.places=['Home','Gym'];
   state.sheets={}; sheetsBuilt.settings=false;
-  document.body.classList.remove('minimal-body');
+  document.body.classList.remove('minimal-mode');
   recomputeAgenda();
 }
 function ensureTing(o){ if(!state.habits.some(h=>h.name===o.name)){ const h=makeTing(Object.assign({type:'habit',kind:'build'},o)); state.habits.unshift(h);} }
@@ -723,7 +765,7 @@ function defineSteps(){
       body:`<p>You're looking at a fresh Tings home. New users start in <strong>minimal mode</strong> — a clean surface that makes the core loop (add, plan, log) effortless.</p>`,
       setup:()=>{ seedMinimal(); } },
     { id:'m2', title:'The Tings logo', expect:'about-open', hint:'Tap the Tings logo',
-      target:{sel:'.app-bar-logo'},
+      target:{sel:'.wordmark'},
       body:`<p>Tap the <strong>Tings logo</strong> (top-left) any time for help, samples, and settings. Go on — tap it.</p>`,
       setup:()=>{ seedMinimal(); } },
     { id:'m3', title:'Your compass: the About sheet', expect:'none',
@@ -751,7 +793,7 @@ function defineSteps(){
       body:`<p>The status line tells you what to do — no streak math to remember:</p><ul><li><span class="chip teal">on track</span> — ahead of your rhythm.</li><li><span class="chip amber">due soon</span> — time to do it.</li><li><span class="chip red">overdue</span> — slipped; do it soon.</li><li><span class="chip">ready to start</span> — never logged.</li></ul>`,
       setup:()=>{ seedMinimal(); ensureTing({name:'Read',emoji:'📚',color:'teal',kind:'build',targetTimes:3,targetDays:7,durationMinutes:30,priority:2,logs:[Date.now()-3*86400000]}); } },
     { id:'m9', title:'Today / overdue / coming up', expect:'none',
-      target:{sel:'.home-section-header'},
+      target:{sel:'.section-header'},
       body:`<p>Home groups your list into <strong>today</strong>, <strong>overdue</strong>, and <strong>coming up</strong> — the right thing is always near the top. Pinned items float to their own group first.</p>`,
       setup:()=>{ seedMinimal();
         ensureTing({name:'Read',emoji:'📚',color:'teal',kind:'build',targetTimes:3,targetDays:7,durationMinutes:30,priority:2,logs:[Date.now()-3*86400000]});
@@ -768,7 +810,7 @@ function defineSteps(){
       body:`<p>Busy blocks carve real free gaps in your week. Tap <strong>"use demo busy times"</strong> to install sleep, work, dinner, and commute.</p>`,
       setup:()=>{ openSheet('settings'); } },
     { id:'m12', title:'Tings packs the plan', expect:'screen-agenda', hint:'Tap Today',
-      target:{sel:'.home-section-header[data-daybase="0"]'}, // Today header
+      target:{sel:'.section-header[data-daybase="0"]'}, // Today header
       body:`<p>With busy times known, the planner slots your habits into the real gaps. <strong>Tap Today's header</strong> to see the day plan.</p>`,
       setup:()=>{ seedMinimal(); closeSheet('settings');
         if(!state.busy.length) state.busy=[...BUSY_DEMO];
@@ -778,14 +820,14 @@ function defineSteps(){
     { id:'m13', title:'Add a place', expect:'place-added', hint:'Type Gym, then add',
       target:{sel:'#place-input'},
       body:`<p>Places let Tings account for travel. Tap into the <strong>locations</strong> field, type <strong>Gym</strong>, and tap +.</p>`,
-      setup:()=>{ switchScreen('settings'); } },
-    { id:'m14', title:'Switch to regular mode', expect:'toggle-minimal', hint:'Turn minimal mode off',
+      setup:()=>{ openSheet('settings'); } },
+    { id:'m14', title:'Switch to regular mode', expect:'toggle-minimalMode', hint:'Turn minimal mode off',
       target:{sel:'[data-setting="minimalMode"]'},
       body:`<p>Ready for more? Switch to <strong>regular mode</strong> under settings → display: agenda times, trails, swipe actions, week-by-day, and the six-page detail — all on the <em>same planner</em>.</p>`,
       setup:()=>{ seedMinimal(); closeSheet('settings'); openSheet('settings'); } },
     // ===== REGULAR MODE =====
     { id:'r1', title:'Regular mode — full surface', expect:'none',
-      target:{sel:'.home-section-header'},
+      target:{sel:'.section-header'},
       body:`<p>Regular mode reveals the full surface. Week-by-day sections with open-time pills, richer cards, swipe actions, and the calendar overview — your habits and plan carry over unchanged.</p>`,
       setup:()=>{ seedRegular(); closeSheet('settings'); } },
     { id:'r2', title:'Week by day', expect:'toggle-weekByDay', hint:'Toggle week by day',
