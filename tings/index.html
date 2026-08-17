@@ -242,8 +242,10 @@ tbody tr:last-child td{border-bottom:0;}
   <div class="group-label">Start here</div>
   <a href="#welcome">Welcome</a>
   <a href="#what-is">What is Tings?</a>
+  <a href="#modes">Minimal &amp; regular mode</a>
   <a href="#philosophy">How it thinks</a>
   <a href="#getting-started">Getting started</a>
+  <a href="onboarding/index.html"><i class="ti ti-walk"></i> Interactive onboarding tour</a>
 
   <div class="group-label">The planner</div>
   <a href="#planner">How the planner works</a>
@@ -314,11 +316,12 @@ tbody tr:last-child td{border-bottom:0;}
 <section id="welcome">
   <div class="hero">
     <h1>The Tings guide</h1>
-    <p class="lede">Tings is a local-first planner for habits, tasks, and a week agenda that fits around your real life. This guide covers every feature, screen, and setting — start at <a href="#getting-started" style="color:inherit;text-decoration:underline">Getting started</a> if you're new.</p>
+    <p class="lede">Tings is a local-first planner for habits, tasks, and a week agenda that fits around your real life. New users start in <a href="#modes" style="color:inherit;text-decoration:underline">minimal mode</a> — a clean, simple surface — and can switch to the full regular mode whenever they want more. This guide covers every feature, screen, and setting — start at <a href="#getting-started" style="color:inherit;text-decoration:underline">Getting started</a> if you're new.</p>
     <div class="hero-actions">
+      <a class="btn primary" href="onboarding/index.html"><i class="ti ti-walk"></i> Take the 3-minute interactive tour</a>
       <a class="btn primary" href="#getting-started"><i class="ti ti-rocket"></i> Get started in 2 minutes</a>
       <a class="btn" href="#planner"><i class="ti ti-calendar-week"></i> How the planner thinks</a>
-      <a class="btn" href="https://lanbeee.github.io/tings/"><i class="ti ti-app-window"></i> Open the app</a>
+      <a class="btn" href="https://lanbeee.github.io/habits/"><i class="ti ti-app-window"></i> Open the app</a>
     </div>
   </div>
   <p>Use the search box above or the contents on the left to jump around. Throughout the guide you'll see <span class="chip"><i class="ti ti-photo"></i> screenshots</span> of the app in action. <em>Note: they were all captured in light mode — the frames adapt to dark mode, so they read fine on either theme.</em></p>
@@ -340,12 +343,56 @@ tbody tr:last-child td{border-bottom:0;}
   <p>The planner looks at everything together — your habits, your tasks, the time you actually have free this week, the places you'll be — and produces a short <strong>today list</strong> plus a <strong>week agenda</strong> that slots work into the gaps that genuinely exist.</p>
   <div class="shot" data-shot="home-list"><i class="ti ti-photo"></i><span class="shot-label">Screenshot: the home list — today's agenda plus your habits and tasks</span><img src="docs-img/home-list.png" alt="The home list — today's agenda plus your habits and tasks" onload="this.parentElement.classList.add('loaded')" onerror="this.remove()"></div>
   <h3>Who it's for</h3>
+  <p>Tings is for anyone who plans their days — however they like to plan. There's no one style you have to adopt:</p>
   <ul>
-    <li>People who want to <strong>build habits</strong> (exercise, reading, prayer, deep work) but hate rigid streaks.</li>
-    <li>People juggling <strong>recurring work and one-off tasks</strong> who don't want two apps.</li>
+    <li>People who <strong>love strict streaks</strong> — set flexibility to 0 with a fixed window and Tings behaves like a firm tracker: miss it and it's missed.</li>
+    <li>People who <strong>hate rigid streaks</strong> — rhythms and flexible targets roll forward instead of resetting, so real life never breaks your chain of effort.</li>
+    <li>People <strong>somewhere in between</strong> — one habit locked tight, another deliberately loose; you decide per habit, not per app.</li>
+    <li>People juggling <strong>habits, one-off tasks, and fixed events</strong> who don't want three separate apps.</li>
     <li>Anyone who wants their planner to <strong>respect real life</strong> — sleep, meals, commuting, the gym being across town.</li>
     <li>Privacy-conscious users: <strong>no account, no server, no sync.</strong> Your data never leaves the device.</li>
   </ul>
+  <p>Whatever your style, Tings adapts: flexible or rigid, minimal or feature-packed, one habit or a hundred. It covers every kind of recurring commitment and one-off job — if you can express "when" and "how often," Tings can plan it.</p>
+</section>
+
+<!-- =========================== MODES =========================== -->
+<section id="modes">
+  <h2><i class="ti ti-adjustments-alt"></i> Minimal &amp; regular mode</h2>
+  <p>Tings has two surfaces on top of the same engine. <strong>Minimal mode</strong> is the default for new users: a clean, uncluttered view that makes the core loop — add, plan, log — feel effortless. <strong>Regular mode</strong> reveals the full surface: agenda times, trails, insight charts, swipe actions, and the week-by-day view.</p>
+  <div class="callout note"><i class="ti ti-info-square-rounded"></i><div><p>Both modes run the <strong>identical planner</strong>. Your rhythm, flexibility, priority, time windows, places, and travel are respected exactly the same — the modes only change <em>how much is shown on screen</em>, never what's due or where things land.</p></div></div>
+
+  <h3>Minimal mode — where everyone starts</h3>
+  <p>Designed so a brand-new user never feels lost. It keeps the essentials and tucks the rest away:</p>
+  <ul>
+    <li><strong>Cards show the essentials</strong> — emoji, name, a one-line status ("ready to start", "2d overdue"), and how often (or the due date for tasks). No extra pills, no charts.</li>
+    <li><strong>Home is grouped simply</strong> — today / overdue / coming up. No day-by-day week sections, no open-time pills, no busy-block or travel cards.</li>
+    <li><strong>Detail is one scrolling page</strong> — rhythm, days, time windows, duration, and due date. The insight charts and effort pages are tucked away.</li>
+    <li><strong>The calendar shows a clean month grid</strong> — without the insight panes and most-active lists.</li>
+    <li><strong>Swiping a card gives you what you need</strong> — log, keep (for samples), and remove. No pin, snooze, or session timers cluttering the surface.</li>
+    <li><strong>No search/filter chip row</strong> — search still works from the top bar.</li>
+  </ul>
+
+  <h3>Regular mode — the full surface</h3>
+  <p>Everything minimal mode hides, plus:</p>
+  <ul>
+    <li><strong>Week-by-day sections</strong> with open-time pills, busy-block cards, travel cards, and the "missed" pill.</li>
+    <li><strong>Richer cards</strong> — agenda times, status percentages, two-week trail dots, order-link marks, early pills, and quick action buttons.</li>
+    <li><strong>Full swipe actions</strong> — pin, snooze, activity history, and focus session timers; plus drag-to-reorder and "doing now".</li>
+    <li><strong>The six-page detail view</strong> — calendar, insight, schedule, effort, identity, and actions.</li>
+    <li><strong>A full calendar overview</strong> — insight panes, most-active lists, coming up / needs attention, and topic &amp; place filters.</li>
+    <li><strong>Filter chips on home</strong> — narrow the list by place or topic.</li>
+  </ul>
+
+  <h3>Which should you use?</h3>
+  <div class="defs">
+    <div class="row"><div class="term">Start here</div><div class="desc"><p>New to Tings? Stay in minimal mode for the first few days. Add habits, log them, watch the status line guide you. Nothing is missing — the planner works fully underneath.</p></div></div>
+    <div class="row"><div class="term">Stay minimal</div><div class="desc"><p>If you just want a clean tracker with no extra chrome, you can use minimal mode forever. It's a complete app, not a demo.</p></div></div>
+    <div class="row"><div class="term">Switch to regular</div><div class="desc"><p>When you find yourself wanting more — the packed week, insight charts, snoozing, timers, filters — switch to regular mode. Your habits, logs, and plans carry over unchanged.</p></div></div>
+  </div>
+
+  <h3>Switching modes</h3>
+  <p>Tap the <strong>Tings logo</strong> (top-left) → <strong>settings</strong> → <strong>display</strong> → toggle <strong>minimal mode</strong>. It's instant and reversible — switch back any time.</p>
+  <div class="callout tip"><i class="ti ti-bulb"></i><div><p>Many screenshots in this guide show regular mode. In minimal mode the same features are there — just tidied away — and this guide marks what's hidden with notes like <em>"hidden in minimal mode"</em>.</p></div></div>
 </section>
 
 <!-- ========================== PHILOSOPHY ========================== -->
@@ -358,6 +405,7 @@ tbody tr:last-child td{border-bottom:0;}
     <div class="row"><div class="term">Capacity is real</div><div class="desc"><p>The week has finite free hours. Tings knows your sleep, work, meals and travel, so the agenda only plans into time that actually exists.</p></div></div>
     <div class="row"><div class="term">Whole week at once</div><div class="desc"><p>Tings plans the whole week together, not day-by-day. Something that doesn't fit today gets pulled forward to tomorrow, not dropped.</p></div></div>
     <div class="row"><div class="term">Local &amp; private</div><div class="desc"><p>Everything is stored on your device. Export a backup when you want; there is no cloud to leak.</p></div></div>
+    <div class="row"><div class="term">Your style, your rules</div><div class="desc"><p>Rigid streak-keeper or laid-back planner — Tings meets you where you are. Per habit, you choose the tightness: firm days and windows when you want discipline, flexible rhythms when life needs room.</p></div></div>
     <div class="row"><div class="term">One pipeline</div><div class="desc"><p>Habits, tasks, and events share one list with common search, topics, places, and history — not three separate silos.</p></div></div>
   </div>
 </section>
@@ -367,14 +415,15 @@ tbody tr:last-child td{border-bottom:0;}
   <h2><i class="ti ti-rocket"></i> Getting started</h2>
   <p>From a blank install to a working today list in a couple of minutes.</p>
   <ol class="steps">
-    <li><p><strong>Open the app.</strong> Tap the Tings logo (top-left) any time for help and settings. A brand-new install shows an empty home with a hint.</p></li>
+    <li><p><strong>Open the app.</strong> Tap the Tings logo (top-left) any time for help and settings. A brand-new install shows an empty home with a hint. You're in <strong>minimal mode</strong> by default — that's intentional, and everything below works exactly the same in it. (See <a href="#modes">Minimal &amp; regular mode</a>.)</p></li>
     <li><p><strong>Try samples (optional but recommended).</strong> Tap the empty message, or open the Tings menu → <em>sample habits</em>. Add one demo or a whole tagged set — timers, places, breakable tasks, prayer demos and more are in there. Sample items are tagged so you can remove them in one tap later. (See <a href="#samples">Sample habits</a>.)</p>
       <div class="shot wide" data-shot="sample-habits"><i class="ti ti-photo"></i><span class="shot-label">Screenshot: the sample habits sheet</span><img src="docs-img/sample-habits.png" alt="The sample habits sheet" onload="this.parentElement.classList.add('loaded')" onerror="this.remove()"></div></li>
     <li><p><strong>Add your first Ting.</strong> Tap the <kbd>+</kbd> button (bottom nav or top bar). Name it, pick <em>habit</em> or <em>task</em>, set "how often," and tap <em>add</em>. The detail view opens so you can fine-tune. See <a href="#add-sheet">The add sheet</a>.</p></li>
     <li><p><strong>Log it.</strong> On the home list, tap the pulsing icon (or double-tap the card) to log a completion. That's the core loop.</p></li>
-    <li><p><strong>Tell Tings about your week.</strong> When you're ready, open <em>settings</em> and set your <a href="#capacity">busy times</a> (sleep, work, meals) and <a href="#places">places</a>. The agenda immediately becomes smarter.</p></li>
+    <li><p><strong>Tell Tings about your week.</strong> When you're ready, open <em>settings</em> and set your <a href="#capacity">busy times</a> (sleep, work, meals) and <a href="#places">places</a>. The agenda immediately becomes smarter. Prefer the fuller surface? Turn off <em>minimal mode</em> under settings → display to unlock week-by-day sections, agenda times, and more.</p></li>
   </ol>
   <div class="callout note"><i class="ti ti-info-square-rounded"></i><div><p>You can use Tings forever without configuring busy times or places — it still tracks habits and tasks perfectly. Those settings only make the <em>planner</em> sharper.</p></div></div>
+  <div class="callout tip"><i class="ti ti-bulb"></i><div><p>Strict streak-keeper? Set a habit's flexibility to <strong>0</strong> for a firm, missable-as-missed habit. Want room to breathe? Give it a few flexible days. Every habit is adjustable — see <a href="#rhythm">Rhythm &amp; flexibility</a>.</p></div></div>
 </section>
 
 <!-- =========================== PLANNER =========================== -->
@@ -699,7 +748,7 @@ tbody tr:last-child td{border-bottom:0;}
   <div class="defs">
     <div class="row"><div class="term">Top bar</div><div class="desc"><p>Tings logo (tap for help &amp; settings — "how it works"), search field, calendar icon, <kbd>+</kbd>, search toggle. Hides on scroll-down, reappears on scroll-up.</p></div></div>
     <div class="row"><div class="term">Quota bar</div><div class="desc"><p>Only shows if storage gets large — warns that old dense activity may be compacted.</p></div></div>
-    <div class="row"><div class="term">Filter row</div><div class="desc"><p>Presence picker, place chips, topic chips. Narrows the list without changing what's due. Hidden in minimal mode.</p></div></div>
+    <div class="row"><div class="term">Filter row</div><div class="desc"><p>Presence picker, place chips, topic chips. Narrows the list without changing what's due. Hidden in <a href="#modes">minimal mode</a>.</p></div></div>
     <div class="row"><div class="term">The list</div><div class="desc"><p>Day section headers + habit/task cards + busy-block/travel cards. A loading skeleton shows on cold open until the planner supplies the week.</p></div></div>
     <div class="row"><div class="term">Bottom nav</div><div class="desc"><p>Calendar · <kbd>+</kbd> (emphasised centre) · search. Search and calendar are hidden until you have enough to use them.</p></div></div>
   </div>
@@ -715,7 +764,7 @@ tbody tr:last-child td{border-bottom:0;}
     <div class="row"><div class="term">Status line (cue)</div><div class="desc"><p>A short phrase: "Ready to start", "Planned today", "Clean today", "N days clean", "Snoozed for now", "Needs a day by today", "2d overdue", "Scheduled", "Someday"…</p></div></div>
     <div class="row"><div class="term">Context marks</div><div class="desc"><p>Small icon pills: progress %, early, doing-now, order-link (arrow + partner emoji), sample, pin, due/scheduled/plan-by, rhythm, duration, flexibility, day-schedule, time-window, topics, place, next-plan, snoozed-until.</p></div></div>
     <div class="row"><div class="term">Trail / crown</div><div class="desc"><p>Most cards show a two-week <strong>trail</strong> of dots (one for last week, seven for this week, today highlighted). <strong>Breakable</strong> cards show a progress crown slider instead. A running <strong>session timer</strong> overlays a progress bar.</p></div></div>
-    <div class="row"><div class="term">Quick actions (right)</div><div class="desc"><p>Three icon buttons on full cards: activity, snooze, remove (mirror the swipe actions). Hidden in minimal mode and on breakable cards.</p></div></div>
+    <div class="row"><div class="term">Quick actions (right)</div><div class="desc"><p>Three icon buttons on full cards: activity, snooze, remove (mirror the swipe actions). Hidden in <a href="#modes">minimal mode</a> and on breakable cards.</p></div></div>
   </div>
   <div class="shot" data-shot="card-anatomy"><i class="ti ti-photo"></i><span class="shot-label">Screenshot: a single habit card, annotated</span><img src="docs-img/card-anatomy.png" alt="A single habit card, annotated" onload="this.parentElement.classList.add('loaded')" onerror="this.remove()"></div>
 </section>
@@ -769,7 +818,7 @@ tbody tr:last-child td{border-bottom:0;}
     <li><strong>Snooze</strong> — open the snooze sheet: 1d / 3d / 7d / 14d, or 1 / 2 repetitions.</li>
     <li><strong>Remove</strong> — delete, with an undo in the toast right after.</li>
   </ul>
-  <p>The crown-dial area is excluded from swipe arming, so turning a breakable dial never swipes the card.</p>
+  <p>In <a href="#modes">minimal mode</a> the shelves slim down to what a simple tracker needs: <strong>keep</strong> (samples) and <strong>remove</strong>. Pin, activity, snooze, and session timers appear once you switch to regular mode. The crown-dial area is excluded from swipe arming, so turning a breakable dial never swipes the card.</p>
 </section>
 
 <!-- =========================== REORDER =========================== -->
@@ -835,6 +884,7 @@ tbody tr:last-child td{border-bottom:0;}
     <li><strong>Today / overdue / coming up</strong> — the classic three buckets plus <em>the rest</em>.</li>
   </ul>
   <p><strong>Pinned</strong> habits always render first under their own header, regardless of mode. Section headers are sticky and stack as you scroll.</p>
+  <div class="callout note"><i class="ti ti-info-square-rounded"></i><div><p>In <a href="#modes">minimal mode</a>, home always uses the simple <strong>today / overdue / coming up</strong> grouping and the day-by-day week view waits for regular mode.</p></div></div>
 
   <h3>Busy blocks &amp; travel cards</h3>
   <p>Inside the day sequence you'll also see:</p>
@@ -848,6 +898,7 @@ tbody tr:last-child td{border-bottom:0;}
 <!-- ========================= INDICATORS ========================= -->
 <section id="indicators">
   <h2><i class="ti ti-dots-circle"></i> Pills &amp; indicators</h2>
+  <p>These pills live in <a href="#modes">regular mode</a>; minimal mode keeps the essentials — the one-line status cue and how-often mark — and leaves the rest of the chrome out.</p>
   <div class="defs">
     <div class="row"><div class="term">Open-time pill</div><div class="desc"><p>On day headers: "3h open · 1h biggest stretch". Tap for the free/busy strip + gap list. Hidden under 10 min free.</p></div></div>
     <div class="row"><div class="term">Missed / slipped pill</div><div class="desc"><p>On the today header: "N missed" — habits that were suggested but slipped off today. Tap for the missed sheet (today's misses + "still open from yesterday").</p></div></div>
@@ -865,7 +916,7 @@ tbody tr:last-child td{border-bottom:0;}
     <div class="row"><div class="term">undo / restore / show</div><div class="desc"><p>Always reversible — reverses logging, planning, deleting, snoozing, or freeing a busy block.</p></div></div>
     <div class="row"><div class="term">open</div><div class="desc"><p>Re-opens the detail for the item you just logged.</p></div></div>
     <div class="row"><div class="term">action</div><div class="desc"><p>Context-sensitive: "done now", "plan instead", "plan today", or "keep plan" after a log.</p></div></div>
-    <div class="row"><div class="term">snooze until planned</div><div class="desc"><p>After planning a future session: hides the habit until exactly that planned time.</p></div></div>
+    <div class="row"><div class="term">snooze until planned</div><div class="desc"><p>After planning a future session: hides the habit until exactly that planned time. (Regular mode only — <a href="#modes">minimal mode</a> has no snoozing.)</p></div></div>
   </div>
 </section>
 
@@ -920,7 +971,7 @@ tbody tr:last-child td{border-bottom:0;}
     <span class="chip"><i class="ti ti-id"></i> identity</span>
     <span class="chip red"><i class="ti ti-dots"></i> actions</span>
   </div>
-  <p>The page you land on is chosen for you: a habit with order constraints opens on <em>actions</em>; a task opens on <em>effort</em>; otherwise a habit opens on <em>calendar</em>. In <strong>minimal mode</strong>, insight &amp; effort pages are hidden and the essentials (duration, auto-mark, due) move onto the schedule page.</p>
+  <p>The page you land on is chosen for you: a habit with order constraints opens on <em>actions</em>; a task opens on <em>effort</em>; otherwise a habit opens on <em>calendar</em>. In <a href="#modes">minimal mode</a>, insight &amp; effort pages are hidden and the essentials (duration, auto-mark, due) move onto the schedule page — one clean scrolling page.</p>
   <div class="shot" data-shot="detail-view"><i class="ti ti-photo"></i><span class="shot-label">Screenshot: detail view with the six page dots</span><img src="docs-img/detail-view.png" alt="The detail view with its six page dots" onload="this.parentElement.classList.add('loaded')" onerror="this.remove()"></div>
 </section>
 
@@ -1116,6 +1167,7 @@ tbody tr:last-child td{border-bottom:0;}
     <li><strong>Month grid legend</strong> — done / planned / on agenda.</li>
   </ul>
   <p>Tap any day or chip to dig in. Triple-tap a day header for the hidden <em>day agenda audit</em> (a power-user scorecard with copy/export).</p>
+  <div class="callout note"><i class="ti ti-info-square-rounded"></i><div><p>In <a href="#modes">minimal mode</a> the overview is the month grid alone — the insight panes, most-active lists, and topic/place filters wait for regular mode. Day-by-day logging and planning from the grid work in both.</p></div></div>
 </section>
 
 <!-- ===================== CALENDAR IMPORT ===================== -->
@@ -1156,7 +1208,7 @@ tbody tr:last-child td{border-bottom:0;}
     <li><strong>Theme</strong> — light, dark, or follow system.</li>
     <li><strong>Font size</strong> — small / medium / large.</li>
     <li><strong>Compact mode</strong> — tighter list, more items per screen.</li>
-    <li><strong>Minimal mode</strong> — strip cards to emoji, name, status line, how often; hide agenda times, trails, insights. Doesn't change what's due or how planning works.</li>
+    <li><strong>Minimal mode</strong> — strip cards to emoji, name, status line, how often; hide agenda times, trails, insights. Doesn't change what's due or how planning works. <em>On by default for new users</em> — see <a href="#modes">Minimal &amp; regular mode</a>.</li>
     <li><strong>Per-card marks</strong> — toggle each badge/line on or off (see <a href="#settings-cards">What shows on each item</a>).</li>
     <li><strong>Easier reach</strong> — pull-and-hold to bring top items down.</li>
   </ul>
@@ -1169,7 +1221,7 @@ tbody tr:last-child td{border-bottom:0;}
   <p>Open settings from the Tings menu. Every section and toggle, in order:</p>
 
   <h3 id="settings-display">Display</h3>
-  <p><strong>Minimal mode</strong> — "Show emoji, name, status line, and how often. Hide agenda times, trails, insights, and other extras. Does not change what's due or how the planner works."</p>
+  <p><strong>Minimal mode</strong> — "Show emoji, name, status line, and how often. Hide agenda times, trails, insights, and other extras. Does not change what's due or how the planner works." It's <strong>on by default for new installs</strong> (existing installs keep whatever they had). See <a href="#modes">Minimal &amp; regular mode</a>.</p>
 
   <h3 id="settings-home">Home page</h3>
   <ul>
@@ -1354,6 +1406,10 @@ tbody tr:last-child td{border-bottom:0;}
 <!-- ============================= FAQ ============================= -->
 <section id="faq">
   <h2><i class="ti ti-help-circle"></i> FAQ &amp; troubleshooting</h2>
+  <h3>What's the difference between minimal and regular mode?</h3>
+  <p>Both run the same planner and respect the same habits — they differ only in how much is shown on screen. Minimal mode (the default for new users) keeps cards, detail, and calendar clean and simple. Regular mode adds agenda times, trails, insight charts, swipe actions, week-by-day sections, and filters. Switch any time under settings → display. See <a href="#modes">Minimal &amp; regular mode</a>.</p>
+  <h3>I want strict streaks — can Tings do that?</h3>
+  <p>Yes. Give a habit <strong>flexibility 0</strong> and, if you like, a fixed allowed window — it then behaves like a firm tracker: miss it and it's behind. Keep flexibility for anything you want to be forgiving. Every habit is tuned independently.</p>
   <h3>Where is my data stored?</h3>
   <p>Only in this browser/device's local storage. Clearing site data wipes it — <a href="#backup">export a backup</a> first.</p>
   <h3>I lost my habits — can I get them back?</h3>

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="color-scheme" content="light dark" />
+<meta name="description" content="Interactive onboarding tour for Tings — a hands-on walkthrough in minimal mode (the default for new users) and then regular mode." />
+<title>Tings · Interactive onboarding</title>
+<link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.10.0/dist/tabler-icons.min.css" />
+<script>(function(l){l.media='not all';l.onload=function(){l.media='all'};l.onerror=function(){l.remove()}})(document.querySelector('link[href*="tabler-icons"]'));</script>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ===== TOP BAR ===== -->
+<header class="coach-header">
+  <a class="brand" href="../index.html"><img src="../favicon.svg" alt="" aria-hidden="true" /><span>Tings <small>· Help</small></span></a>
+  <div class="coach-header-actions">
+    <a class="btn btn-back-docs" href="../index.html"><i class="ti ti-arrow-left"></i> Back to guide</a>
+    <button class="icon-btn" id="theme-toggle" aria-label="toggle theme"><i class="ti ti-moon"></i></button>
+    <button class="icon-btn" id="restart-tour" aria-label="restart the tour"><i class="ti ti-refresh"></i></button>
+  </div>
+</header>
+
+<div class="coach-layout">
+  <!-- ===== THE SIMULATED APP (phone frame) ===== -->
+  <div class="phone-frame" id="phone-frame">
+    <div class="phone-notch"></div>
+    <div class="phone-screen" id="phone-screen">
+
+      <!-- spotlight overlay used by the coach to dim everything but the target -->
+      <div class="spotlight" id="spotlight" aria-hidden="true"></div>
+
+      <div class="app" id="app">
+        <!-- top bar -->
+        <header class="app-bar" id="app-bar">
+          <button class="wordmark app-bar-logo" id="bar-open-about" aria-label="how it works">
+            <img src="../favicon.svg" alt="" aria-hidden="true" />
+            <span class="wordmark-copy"><span>Tings</span><small class="wordmark-date" id="home-date"></small></span>
+          </button>
+          <div id="home-tag-filter" class="home-filter-bar" aria-label="home filters"></div>
+          <div class="app-bar-actions">
+            <button class="icon-btn" id="bar-open-overview" aria-label="calendar"><i class="ti ti-calendar-month"></i></button>
+            <button class="icon-btn app-bar-add" id="bar-open-add" aria-label="add habit"><i class="ti ti-plus"></i></button>
+            <button class="icon-btn" id="bar-open-search" aria-label="search habits" aria-pressed="false"><i class="ti ti-search"></i></button>
+          </div>
+        </header>
+
+        <!-- main content: list / overview / detail / settings -->
+        <main class="app-main">
+          <div id="list"></div>
+          <p id="empty" class="empty-state"><span class="empty-msg">habits, tasks, and planning</span><br><span class="empty-sub">Saved on this device. Tap Tings for help and settings, + to add, or tap here to try samples.</span></p>
+          <div id="agenda"></div>
+          <div id="overview-pane"></div>
+          <div id="detail-pane"></div>
+        <div id="sheet-anchor"></div>
+      </main>
+
+        <nav class="bottom-nav" aria-label="main actions">
+          <button class="icon-btn" id="open-overview" aria-label="calendar"><i class="ti ti-calendar-month"></i></button>
+          <button class="icon-btn nav-add" id="open-add" aria-label="add habit"><i class="ti ti-plus"></i></button>
+          <button class="icon-btn" id="open-search" aria-label="search habits" aria-pressed="false"><i class="ti ti-search"></i></button>
+        </nav>
+
+        <!-- sheets (add / settings / detail / overview / samples / about / day audit) -->
+        <div class="sheet-wrap" id="add-sheet">
+          <div class="sheet add-sheet" role="dialog" aria-modal="true" aria-label="add a Ting">
+            <div class="sheet-header"><span class="sheet-eyebrow">Add</span><button class="icon-btn sheet-close" id="add-close" aria-label="close"><i class="ti ti-x"></i></button></div>
+            <div class="add-fields">
+              <div class="add-name">
+                <input type="text" id="ting-message" placeholder="name" autocomplete="off" autocapitalize="sentences" />
+                <button type="button" class="ting-emoji-preview" id="ting-emoji-preview" aria-label="edit emoji">🤓</button>
+              </div>
+              <div class="seg" id="type-seg">
+                <button type="button" class="seg-btn" data-type="habit" aria-pressed="true">habit</button>
+                <button type="button" class="seg-btn" data-type="task" aria-pressed="false">task</button>
+              </div>
+              <p class="field-hint" id="target-help">How often — times in N days (e.g. 2× in 7d).</p>
+              <div class="range-row" id="target-slider-row">
+                <div class="range-field"><input type="text" id="ting-times" inputmode="numeric" maxlength="2" value="1" /><label>times</label></div>
+                <div class="range-track"><div class="range-fill"></div></div>
+                <div class="range-field"><input type="text" id="ting-days" inputmode="numeric" maxlength="3" value="7" /><label>in days</label></div>
+              </div>
+              <div class="plan-field-row" id="task-due-row" hidden>
+                <input type="date" id="ting-due-date" />
+                <input type="time" id="ting-due-time" title="add a time to make this a fixed appointment" />
+              </div>
+            </div>
+            <div class="sheet-footer">
+              <button class="btn primary" id="do-save">add</button>
+              <button class="btn" id="do-cancel">cancel</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="sheet-wrap" id="settings-sheet">
+          <div class="sheet settings-sheet" role="dialog" aria-modal="true" aria-label="settings">
+            <div class="sheet-header"><span class="sheet-eyebrow">Settings</span><button class="icon-btn sheet-close" id="settings-close" aria-label="close"><i class="ti ti-x"></i></button></div>
+            <!-- populated once by app.js syncSheets() on first open; content containers refresh afterwards -->
+            <div class="sheet-footer"></div>
+          </div>
+        </div>
+
+        <div class="sheet-wrap" id="about-sheet">
+          <div class="sheet about-sheet" role="dialog" aria-modal="true" aria-label="about Tings">
+            <div class="about-hero">
+              <img src="../favicon.svg" alt="" aria-hidden="true" />
+              <div>
+                <span class="sheet-eyebrow">your days, in rhythm</span>
+                <p class="sheet-title">Tings</p>
+                <p class="about-copy">Habits, tasks, and a week plan shaped around your real time. Private by default; everything stays on this device.</p>
+              </div>
+              <button class="icon-btn about-hero-close" id="about-close" aria-label="close"><i class="ti ti-x"></i></button>
+            </div>
+            <div class="about-stack">
+              <section class="about-block about-collapsible">
+                <button class="about-collapse-head" data-target="about-start"><span class="about-label">Start</span><span class="about-summary">Add habits, try samples.</span><i class="ti ti-chevron-down"></i></button>
+                <div class="about-collapse-body" data-target="about-start" hidden>
+                  <p>Tap + to make a build, limit, stop, or task. Tap the empty message or samples to try a demo.</p>
+                </div>
+              </section>
+              <section class="about-block about-collapsible">
+                <button class="about-collapse-head" data-target="about-log"><span class="about-label">Log</span><span class="about-summary">Pulse the icon to log; tap the card for detail.</span><i class="ti ti-chevron-down"></i></button>
+                <div class="about-collapse-body" data-target="about-log" hidden>
+                  <p>Pulse the emoji circle (or double-tap the card) to log. Tap the card body to open detail.</p>
+                </div>
+              </section>
+              <section class="about-block about-collapsible">
+                <button class="about-collapse-head" data-target="about-plan"><span class="about-label">Plan</span><span class="about-summary">Busy times, open hours, places, then the agenda packs your list.</span><i class="ti ti-chevron-down"></i></button>
+                <div class="about-collapse-body" data-target="about-plan" hidden>
+                  <p>Set busy times and places in Settings. Tings packs eligible items into real free gaps.</p>
+                </div>
+              </section>
+            </div>
+            <div class="btn-row about-actions">
+              <a class="btn" href="../index.html"><i class="ti ti-book-2"></i> help &amp; docs</a>
+              <button class="btn" id="about-samples"><i class="ti ti-sparkles"></i> samples</button>
+              <button class="btn" id="about-settings"><i class="ti ti-settings"></i> settings</button>
+              <button class="btn primary" id="about-close2"><i class="ti ti-check"></i> done</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="sheet-wrap" id="samples-sheet">
+          <div class="sheet samples-sheet" role="dialog" aria-modal="true" aria-label="sample habits">
+            <div class="sheet-header"><span class="sheet-eyebrow">Samples</span><button class="icon-btn sheet-close" id="samples-close" aria-label="close"><i class="ti ti-x"></i></button></div>
+            <p class="about-copy">Try one demo or a few — timers, places, breakable tasks, and more.</p>
+            <div class="samples-list" id="samples-list"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="phone-home"></div>
+  </div>
+
+  <!-- ===== THE COACH ===== -->
+  <aside class="coach" id="coach">
+    <div class="coach-progress" id="coach-progress"><div></div></div>
+    <div class="coach-card">
+      <div class="coach-step-head">
+        <div class="coach-step-num"><span id="step-num">1</span><span>/</span><span id="step-total">12</span></div>
+        <h3 class="coach-title" id="coach-title">Welcome to Tings</h3>
+      </div>
+      <div class="coach-body" id="coach-body"></div>
+      <div class="coach-foot">
+        <div class="coach-hint" id="coach-hint"></div>
+        <div class="coach-actions">
+          <button class="btn btn-ghost" id="coach-prev" disabled><i class="ti ti-chevron-left"></i> prev</button>
+          <button class="btn" id="coach-next">next</button>
+        </div>
+      </div>
+    </div>
+  </aside>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
