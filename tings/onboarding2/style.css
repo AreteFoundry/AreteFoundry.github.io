@@ -1,0 +1,228 @@
+/* Tings tour — coach overlay over the live app.
+   Mobile-first: the stage is the whole screen on a phone, a phone frame on a desktop.
+   The overlay is decoupled from the app (it never touches the iframe's DOM), so it
+   cannot break the app. The app renders itself; we only point at it. */
+
+:root{
+  --ink:#1c1b19;
+  --ink-2:#5b5852;
+  --paper:#f5f4f0;
+  --line:#e4e2dc;
+  --accent:#0f8f7e;          /* Tings teal */
+  --accent-ink:#ffffff;
+  --dim:rgba(20,18,15,.42);  /* spotlight dim */
+  --card:#ffffff;
+  --shadow:0 10px 30px rgba(20,18,15,.18);
+  --radius:18px;
+  --nav-h:64px;              /* the app's bottom nav height, used to place bottom targets */
+}
+
+@media (prefers-color-scheme:dark){
+  :root{
+    --ink:#f2f0ea; --ink-2:#a8a49c; --paper:#1c1b19; --line:#33312d;
+    --card:#26241f; --dim:rgba(0,0,0,.55); --shadow:0 10px 30px rgba(0,0,0,.5);
+  }
+}
+
+*{box-sizing:border-box;}
+html,body{margin:0;height:100%;}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  background:var(--paper);
+  color:var(--ink);
+  -webkit-font-smoothing:antialiased;
+  overflow:hidden;
+}
+
+/* ---------- stage ---------- */
+.stage-wrap{
+  position:fixed; inset:0;
+  display:flex; align-items:center; justify-content:center;
+  padding:0;
+}
+
+/* Mobile: the stage is the whole screen. */
+.stage{
+  position:relative;
+  width:100vw; height:100dvh;
+  background:var(--paper);
+  overflow:hidden;
+  isolation:isolate;
+}
+
+/* Desktop: a phone frame, centered. */
+@media (min-width:720px){
+  .stage-wrap{ padding:24px; background:
+      radial-gradient(1200px 600px at 50% -10%, rgba(15,143,126,.10), transparent 60%),
+      var(--paper); }
+  .stage{
+    width:390px; height:min(844px, calc(100dvh - 48px));
+    border-radius:44px;
+    box-shadow:var(--shadow), 0 0 0 10px #111, 0 0 0 12px #2a2a2a;
+    background:#000;
+  }
+}
+
+/* The live app fills the stage. */
+#app-frame{
+  position:absolute; inset:0;
+  width:100%; height:100%;
+  border:0; background:var(--paper);
+  z-index:1;
+}
+
+/* ---------- loading / fallback ---------- */
+.frame-status{
+  position:absolute; inset:0; z-index:5;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:14px; text-align:center; padding:24px;
+  background:var(--paper); color:var(--ink-2);
+  transition:opacity .3s ease;
+}
+.frame-status.hidden{ opacity:0; pointer-events:none; }
+.frame-spinner{
+  width:34px; height:34px; border-radius:50%;
+  border:3px solid var(--line); border-top-color:var(--accent);
+  animation:spin .8s linear infinite;
+}
+@keyframes spin{ to{ transform:rotate(360deg);} }
+.frame-status-text{ margin:0; font-size:14px; }
+.frame-status-link{
+  font-size:13px; color:var(--accent); text-decoration:underline;
+  font-weight:600;
+}
+
+/* ---------- spotlight ---------- */
+.spotlight{ position:absolute; inset:0; z-index:6; pointer-events:none; }
+.spot-strip{
+  position:absolute; background:var(--dim);
+  transition:all .28s cubic-bezier(.2,.7,.2,1);
+}
+.spot-ring{
+  position:absolute; border-radius:14px;
+  box-shadow:0 0 0 3px var(--accent), 0 0 0 6px rgba(15,143,126,.25);
+  transition:all .28s cubic-bezier(.2,.7,.2,1);
+  pointer-events:none;
+}
+/* When there is no target (welcome / done), dim nothing. */
+.spotlight.off .spot-strip{ opacity:0; }
+.spotlight.off .spot-ring{ opacity:0; }
+
+/* ---------- arrow ---------- */
+.coach-arrow{
+  position:absolute; z-index:8; width:0; height:0;
+  transition:all .28s cubic-bezier(.2,.7,.2,1);
+  pointer-events:none;
+}
+/* default: pointing up (card below the target) */
+.coach-arrow.up{
+  border-left:11px solid transparent;
+  border-right:11px solid transparent;
+  border-bottom:13px solid var(--card);
+  filter:drop-shadow(0 -2px 2px rgba(0,0,0,.12));
+}
+.coach-arrow.down{
+  border-left:11px solid transparent;
+  border-right:11px solid transparent;
+  border-top:13px solid var(--card);
+  filter:drop-shadow(0 2px 2px rgba(0,0,0,.12));
+}
+.coach-arrow.hidden{ display:none; }
+
+/* ---------- coach card ---------- */
+.coach{
+  position:absolute; left:0; right:0; z-index:9;
+  padding:10px 12px calc(10px + env(safe-area-inset-bottom));
+  display:flex; flex-direction:column; gap:8px;
+  transition:top .28s ease, bottom .28s ease, transform .28s ease, opacity .2s ease;
+}
+/* default: bottom */
+.coach.at-bottom{ bottom:0; }
+/* for bottom targets, lift the card to the top so it doesn't cover the nav */
+.coach.at-top{ top:0; padding-top:calc(10px + env(safe-area-inset-top)); }
+
+.coach-top{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0 2px;
+}
+.coach-brand{
+  display:flex; align-items:center; gap:7px;
+  font-size:12px; font-weight:700; letter-spacing:.04em; text-transform:uppercase;
+  color:var(--ink-2);
+}
+.brand-dot{ width:8px; height:8px; border-radius:50%; background:var(--accent); }
+.coach-top-actions{ display:flex; align-items:center; gap:4px; }
+
+.coach-progress{ height:3px; background:var(--line); border-radius:3px; overflow:hidden; }
+.coach-progress-bar{
+  height:100%; width:0%; background:var(--accent);
+  transition:width .3s ease;
+}
+
+.coach-card{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  padding:14px 14px 12px;
+}
+.coach-step-head{
+  display:flex; align-items:center; gap:10px; margin-bottom:6px;
+}
+.coach-step-num{
+  font-size:12px; font-weight:700; color:var(--accent);
+  background:color-mix(in srgb, var(--accent) 12%, transparent);
+  padding:3px 8px; border-radius:999px; white-space:nowrap;
+}
+.coach-step-sep{ opacity:.5; margin:0 1px; }
+.coach-title{
+  margin:0; font-size:17px; font-weight:700; line-height:1.2;
+}
+.coach-body{
+  margin:0 0 12px; font-size:14.5px; line-height:1.5; color:var(--ink-2);
+}
+.coach-body b{ color:var(--ink); }
+.coach-foot{
+  display:flex; align-items:center; justify-content:space-between; gap:10px;
+}
+
+/* buttons */
+.btn{
+  font:inherit; font-size:14px; font-weight:600;
+  border:1px solid var(--line); background:var(--card); color:var(--ink);
+  padding:9px 14px; border-radius:12px; cursor:pointer;
+  display:inline-flex; align-items:center; gap:6px;
+  min-height:40px;
+  transition:transform .06s ease, background .15s ease;
+}
+.btn:active{ transform:scale(.97); }
+.btn-primary{ background:var(--accent); color:var(--accent-ink); border-color:var(--accent); }
+.btn-ghost{ background:transparent; }
+.btn[disabled]{ opacity:.4; cursor:not-allowed; }
+.btn .ti{ font-size:18px; }
+
+.icon-btn{
+  font:inherit; background:transparent; border:0; color:var(--ink-2);
+  width:38px; height:38px; border-radius:10px; cursor:pointer;
+  display:inline-flex; align-items:center; justify-content:center;
+}
+.icon-btn:hover{ background:color-mix(in srgb, var(--ink) 8%, transparent); }
+.icon-btn .ti{ font-size:20px; }
+#coach-skip{ width:auto; padding:0 10px; font-size:13px; font-weight:600; }
+
+/* ---------- post-tour restart ---------- */
+.tour-restart{
+  position:absolute; z-index:9;
+  right:12px; bottom:calc(12px + var(--nav-h) + env(safe-area-inset-bottom));
+  display:inline-flex; align-items:center; gap:6px;
+  font:inherit; font-size:13px; font-weight:700;
+  background:var(--accent); color:var(--accent-ink);
+  border:0; border-radius:999px; padding:9px 14px; cursor:pointer;
+  box-shadow:var(--shadow);
+}
+.tour-restart .ti{ font-size:16px; }
+
+/* ---------- reduced motion ---------- */
+@media (prefers-reduced-motion:reduce){
+  *{ transition:none !important; animation:none !important; }
+}

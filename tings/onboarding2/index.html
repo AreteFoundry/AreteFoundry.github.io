@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="color-scheme" content="light dark" />
+<meta name="description" content="A hands-on tour of Tings — the real app, with a guided coach that points at each feature." />
+<title>Tings · Tour</title>
+<link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.10.0/dist/tabler-icons.min.css" />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- The stage holds the live app (iframe) and the coach overlay.
+     On a phone the stage is the whole screen; on a desktop it becomes a phone frame. -->
+<div class="stage-wrap" id="stage-wrap">
+  <div class="stage" id="stage">
+
+    <!-- The real app, live. This is the source of truth — it always looks exactly like the app. -->
+    <iframe id="app-frame" title="Tings" src="https://lanbeee.github.io/habits/"
+            referrerpolicy="no-referrer-when-downgrade"></iframe>
+
+    <!-- Loading / fallback layer shown until the app is reachable. -->
+    <div class="frame-status" id="frame-status">
+      <div class="frame-spinner" aria-hidden="true"></div>
+      <p class="frame-status-text" id="frame-status-text">loading Tings…</p>
+      <a class="frame-status-link" id="frame-open" href="https://lanbeee.github.io/habits/" target="_blank" rel="noopener" hidden>open in a new tab</a>
+    </div>
+
+    <!-- Spotlight: 4 dim strips leave a glowing hole around the current target. -->
+    <div class="spotlight" id="spotlight" aria-hidden="true">
+      <div class="spot-strip spot-top"    id="spot-top"></div>
+      <div class="spot-strip spot-bottom" id="spot-bottom"></div>
+      <div class="spot-strip spot-left"   id="spot-left"></div>
+      <div class="spot-strip spot-right"  id="spot-right"></div>
+      <div class="spot-ring" id="spot-ring" aria-hidden="true"></div>
+    </div>
+
+    <!-- Arrow cue, attached to the coach card, pointing at the target. -->
+    <div class="coach-arrow" id="coach-arrow" aria-hidden="true"></div>
+
+    <!-- Coach card: title, body, prev/next. Sits at the bottom (or top for bottom targets). -->
+    <aside class="coach" id="coach" aria-live="polite">
+      <div class="coach-top">
+        <div class="coach-brand"><span class="brand-dot"></span> Tings tour</div>
+        <div class="coach-top-actions">
+          <button class="icon-btn" id="coach-restart" type="button" aria-label="restart tour"><i class="ti ti-refresh" aria-hidden="true"></i></button>
+          <button class="icon-btn" id="coach-skip" type="button" aria-label="skip tour">skip</button>
+        </div>
+      </div>
+      <div class="coach-progress"><div class="coach-progress-bar" id="coach-progress-bar"></div></div>
+      <div class="coach-card">
+        <div class="coach-step-head">
+          <div class="coach-step-num"><span id="step-num">1</span><span class="coach-step-sep">/</span><span id="step-total">10</span></div>
+          <h2 class="coach-title" id="coach-title">Welcome</h2>
+        </div>
+        <p class="coach-body" id="coach-body"></p>
+        <div class="coach-foot">
+          <button class="btn btn-ghost" id="coach-prev" type="button" disabled><i class="ti ti-chevron-left" aria-hidden="true"></i> back</button>
+          <button class="btn btn-primary" id="coach-next" type="button">next</button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Shown after the tour: a small floating restart control. -->
+    <button class="tour-restart" id="tour-restart" type="button" hidden>
+      <i class="ti ti-compass" aria-hidden="true"></i> tour
+    </button>
+
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
