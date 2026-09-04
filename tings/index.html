@@ -82,9 +82,6 @@ a{color:var(--teal);text-decoration:none;}a:hover{text-decoration:underline;}
   border:1px solid var(--border);background:var(--bg);color:var(--text2);cursor:pointer;
   transition:background .15s var(--ease),color .15s var(--ease);}
 .icon-btn:hover{background:var(--bg3);color:var(--text);}
-.topbar a.back-app{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:999px;
-  background:var(--teal-bg);color:var(--teal-text);font-weight:600;font-size:14px;border:1px solid transparent;}
-.topbar a.back-app:hover{text-decoration:none;filter:brightness(.97);}
 
 .layout{display:flex;align-items:flex-start;max-width:1320px;margin:0 auto;}
 .sidebar{position:sticky;top:65px;width:var(--sidebar-w);flex-shrink:0;height:calc(100vh - 65px);
@@ -237,7 +234,6 @@ tbody tr:last-child td{border-bottom:0;}
     <input type="search" id="nav-filter" placeholder="filter topics…" autocomplete="off" /></label>
   <span class="spacer"></span>
   <button class="icon-btn" id="theme-toggle" aria-label="toggle theme" title="theme"><i class="ti ti-moon-stars"></i></button>
-  <a class="back-app" href="https://lanbeee.github.io/tings/"><i class="ti ti-arrow-left" aria-hidden="true"></i> Back to app</a>
 </header>
 
 <div class="layout">
@@ -1734,7 +1730,7 @@ tbody tr:last-child td{border-bottom:0;}
 })();
 /* Active section */
 (function(){
-  var links=Array.prototype.slice.call(document.querySelectorAll('#toc a[href^="#"])),map={};
+  var links=Array.prototype.slice.call(document.querySelectorAll('#toc a[href^="#"]')),map={};
   links.forEach(function(l){map[l.getAttribute('href').slice(1)]=l;});
   var secs=document.querySelectorAll('main.content section[id]');
   var io=new IntersectionObserver(function(entries){
