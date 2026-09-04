@@ -742,7 +742,7 @@ const coach = {
   },
   advance(){
     const s=this.steps[this.step]; if(s.onComplete) try{s.onComplete(state);}catch(e){}
-    if(s.expect==='open-app'){ window.open('https://lanbeee.github.io/habits/','_blank'); return; }
+    if(s.expect==='open-app'){ window.open('https://lanbeee.github.io/tings/','_blank'); return; }
     this.step=Math.min(this.step+1, this.steps.length-1);
     const nxt=this.steps[this.step]; if(nxt.setup) nxt.setup(state);
     render(); this.update();
