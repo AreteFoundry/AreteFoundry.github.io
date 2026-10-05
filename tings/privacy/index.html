@@ -92,7 +92,7 @@ footer{max-width:var(--maxw);margin:0 auto;padding:0 20px 48px;color:var(--text3
     <h1>Privacy Policy</h1>
     <p class="lede">Tings is a local-first habit, task and week-agenda planner. Your plan lives on your device — there is no Tings account and no hidden backend for your list.</p>
   </div>
-  <p class="updated">Last updated: October 5, 2026 · Applies to the Tings web app and the Tings Android app.</p>
+  <p class="updated">Last updated: October 5, 2026</p>
 
   <div class="summary">
     <strong>Short version</strong>
@@ -110,7 +110,7 @@ footer{max-width:var(--maxw);margin:0 auto;padding:0 20px 48px;color:var(--text3
     <li><a href="#services">Services each feature contacts</a></li>
     <li><a href="#sharing">Sharing &amp; shared display</a></li>
     <li><a href="#assistant">Local assistant (AI)</a></li>
-    <li><a href="#android">Android app</a></li>
+    <li><a href="#reminders">Reminders, alarms &amp; location</a></li>
     <li><a href="#never">What Tings never does</a></li>
     <li><a href="#feedback">Feedback</a></li>
     <li><a href="#deletion">Deleting your data</a></li>
@@ -119,12 +119,12 @@ footer{max-width:var(--maxw);margin:0 auto;padding:0 20px 48px;color:var(--text3
 
   <section class="card" id="on-device">
     <h2>1 · Data stored on your device</h2>
-    <p>Tings is a set of files; the site you open is the program. Your list is saved in your browser's own storage (<code>localStorage</code>) on the phone or computer you use — or in app-private storage in the Android app. It is not uploaded to a Tings inbox, and the person who put this site online cannot see your habits, notes, addresses, or logs.</p>
+    <p>Tings is a set of files; the app you open is the program. Your list is saved in the app's own storage on your device. It is not uploaded to a Tings inbox, and the person who put the app online cannot see your habits, notes, addresses, or logs.</p>
     <ul>
       <li><strong>No account.</strong> There is no sign-up, sign-in, or user profile.</li>
-      <li><strong>Location is not kept as history.</strong> Live GPS is used on your device to match you to a saved place. Raw GPS coordinates are not saved with your data; on Android, the optional closed-app refresh may keep the latest location fix on the device for at most ten minutes so reminders can follow you to a saved place.</li>
+      <li><strong>Location is not kept as history.</strong> Your location is used on your device to match you to a saved place. Raw coordinates are not saved with your data; the optional background refresh keeps the latest location fix on the device for at most ten minutes so reminders can follow you to a saved place.</li>
       <li><strong>Backups are files you make.</strong> Settings → backup exports a file you keep yourself. There is no cloud backup.</li>
-      <li>Clearing the site's data, switching browsers, or uninstalling the app removes the list unless you exported a backup first.</li>
+      <li>Deleting the app's data or uninstalling the app removes the list unless you exported a backup first.</li>
     </ul>
   </section>
 
@@ -157,7 +157,7 @@ footer{max-width:var(--maxw);margin:0 auto;padding:0 20px 48px;color:var(--text3
       <tr>
         <td>App libraries</td>
         <td>Public CDNs<br /><small>cdn.jsdelivr.net, unpkg.com</small></td>
-        <td>Tabler icons, Leaflet and PDF.js are loaded as code libraries. They receive no user data. Calendar PDF import is parsed in your browser; the file you pick is never uploaded.</td>
+        <td>Tabler icons, Leaflet and PDF.js are loaded as code libraries. They receive no user data. Calendar PDF import is parsed on your device; the file you pick is never uploaded.</td>
       </tr>
       <tr>
         <td>App Store link naming</td>
@@ -166,14 +166,14 @@ footer{max-width:var(--maxw);margin:0 auto;padding:0 20px 48px;color:var(--text3
       </tr>
     </table>
     </div>
-    <p><small>Prayer times are calculated on your device from your city. Social, web and directions buttons (Google Maps, Apple Maps, WhatsApp, and similar) open links in your browser or the matching app when you tap them; Tings does not send them anything on its own.</small></p>
+    <p><small>Prayer times are calculated on your device from your city. Social and directions buttons (Google Maps, Apple Maps, WhatsApp, and similar) open the matching website or app when you tap them; Tings does not send them anything on its own.</small></p>
   </section>
 
   <section class="card" id="sharing">
     <h2>3 · Sharing and shared display (opt-in, end-to-end encrypted)</h2>
     <p><strong>Share item</strong> encrypts the item on your device (AES-GCM) before it leaves, then stores only that encrypted copy on a relay operated by the developer on Cloudflare. The decryption key lives in the invitation link itself, not on the server. Recipient progress stays separate from yours, and you can revoke sharing from the item at any time.</p>
     <p><strong>Shared display</strong> lets you pair at most two screens (one full-app display, one glance display) by scanning a QR code from inside Tings. Tings publishes an encrypted, capped today/tomorrow agenda the paired screens can decrypt, and — only when a personal clone is signed in — a separately encrypted copy of the full library whose key is transferred only to that clone. Either signed-in screen can publish encrypted completion events. The relay can see that encrypted blobs exist, their sizes, and when they were updated, but cannot read item names, notes, places, or completion contents. You can revoke a display or the whole feed anytime in Settings.</p>
-    <p><small>Pairing credentials are random identifiers generated on your device. A browser push-relay feature exists in the code but is disabled in current builds; if it is ever enabled, it would send a push subscription and notification text for reminders you asked for.</small></p>
+    <p><small>Pairing credentials are random identifiers generated on your device. A push-notification relay feature is disabled in current builds; if it is ever enabled, it would send a push subscription and notification text for reminders you asked for.</small></p>
   </section>
 
   <section class="card" id="assistant">
@@ -182,14 +182,12 @@ footer{max-width:var(--maxw);margin:0 auto;padding:0 20px 48px;color:var(--text3
     <p>Per request it sends: what you type, a short catalog of context (item names and times for today, saved-place <em>names</em>, weather-profile names, recent conversation turns), and tool-call results. It does <strong>not</strong> send your notes, logs, addresses, or coordinates. Clear requests are parsed on your device; suggested changes are shown to you and nothing is saved until you confirm. Turning it off in Settings stops all of this.</p>
   </section>
 
-  <section class="card" id="android">
-    <h2>5 · Android app</h2>
-    <p>The Android app packages the same app and stores your data in app-private storage on the device. Its optional permissions work like this:</p>
+  <section class="card" id="reminders">
+    <h2>5 · Reminders, alarms and location</h2>
+    <p>Reminders are optional and start off. For each item you choose whether its start, end, travel and warning edges notify you, ring as an alarm, or stay silent. If you decline notification or alarm access, those reminders simply stay unarmed.</p>
     <ul>
-      <li><strong>Notifications &amp; alarms</strong> (<span style="white-space:nowrap">POST_NOTIFICATIONS,</span> SCHEDULE_EXACT_ALARM): used only for reminders you configure per item — agenda reminders, ringing alarms and drop warnings. You choose Off, Notification or Ringing alarm per item edge; everything starts off.</li>
-      <li><strong>Location</strong> (coarse, fine, background — all optional): used to match you to a saved place and to let reminders follow you between places. Background refresh makes at most one balanced-power location request per run (about every 30 minutes, only when reminders and refresh are enabled), keeps the latest fix on the device for at most ten minutes, and never uploads it. Movement is not tracked as history, and there is no continuous GPS service. Refresh also works from your saved place without background location.</li>
-      <li><strong>Network:</strong> while closed, background agenda refresh may fetch weather — the app allowlists exactly the two Open-Meteo endpoints listed above and loads packaged assets only.</li>
-      <li>The background planner runs in an isolated headless view that cannot read or change your visible app data, load remote scripts, or navigate.</li>
+      <li><strong>Location (optional):</strong> used to match you to a saved place and to let reminders follow you between places. The optional background refresh — about every 30 minutes, only when reminders and refresh are enabled — makes at most one coarse location check per run, keeps the latest fix on the device for at most ten minutes, and never uploads it. Movement is not tracked as history, and there is no continuous location service. Refresh also works from your saved place without location access.</li>
+      <li><strong>While the app is closed:</strong> background agenda refresh may fetch weather for your plan — only from the Open-Meteo endpoints listed above — and runs entirely on code bundled with the app, in isolation from your visible list.</li>
     </ul>
   </section>
 
@@ -208,14 +206,13 @@ footer{max-width:var(--maxw);margin:0 auto;padding:0 20px 48px;color:var(--text3
 
   <section class="card" id="feedback">
     <h2>7 · Feedback</h2>
-    <p>The send-feedback button on the About screen opens a Google Form in a new browser tab. Tings does not receive those answers, and nothing from your list is attached; Google collects whatever you type in the form. Please skip habit names, addresses, notes, and logs when writing feedback. You can leave the form without sending anything.</p>
+    <p>The send-feedback button on the About screen opens a Google Form in a new tab. Tings does not receive those answers, and nothing from your list is attached; Google collects whatever you type in the form. Please skip habit names, addresses, notes, and logs when writing feedback. You can leave the form without sending anything.</p>
   </section>
 
   <section class="card" id="deletion">
     <h2>8 · Deleting your data</h2>
     <ul>
-      <li><strong>Web:</strong> clear the site's data in your browser settings, or use Settings → backup to export a copy first.</li>
-      <li><strong>Android:</strong> uninstall the app, or clear its storage from Android's app info screen.</li>
+      <li><strong>Your list:</strong> delete the app's data from your device settings, or uninstall the app. Use Settings → backup first to keep a copy.</li>
       <li><strong>Shared items and displays:</strong> revoke sharing from the item, or revoke a paired display or the whole shared feed in Settings. Revoking stops future updates and access; already-stored encrypted blobs age out on the relay.</li>
       <li><strong>Backups:</strong> backup files are yours — delete them like any local file.</li>
     </ul>
@@ -229,7 +226,7 @@ footer{max-width:var(--maxw);margin:0 auto;padding:0 20px 48px;color:var(--text3
 </main>
 
 <footer>
-  This page describes the Tings web app and the Tings Android app. The app is open source — anyone can read how it works.
+  This page describes the Tings app. The app is open source — anyone can read how it works.
 </footer>
 
 </body>
