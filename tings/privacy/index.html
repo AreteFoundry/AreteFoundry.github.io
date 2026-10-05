@@ -100,7 +100,7 @@ footer{max-width:var(--maxw);margin:0 auto;padding:0 20px 48px;color:var(--text3
       <li><strong>No account.</strong> Your habits, tasks, notes, logs, places and settings are stored only on your device.</li>
       <li><strong>No analytics, no ads, no trackers, no crash reporting.</strong> Tings does not profile you and does not sell data — there is no data to sell.</li>
       <li>A few optional features contact an outside service for one stated job (weather, address search, driving estimates, map tiles). Each request contains only what that job needs — never your habit list.</li>
-      <li>Sharing and shared display are opt-in and <strong>end-to-end encrypted</strong> on your device before anything leaves it.</li>
+      <li>Sharing and shared display are opt-in, available in the web app, and <strong>end-to-end encrypted</strong> on your device before anything leaves it. The installed Android app ships without sharing.</li>
       <li>The optional local assistant talks only to a model server <strong>you</strong> configure on your own network. There is no Tings cloud model.</li>
     </ul>
   </div>
@@ -171,9 +171,10 @@ footer{max-width:var(--maxw);margin:0 auto;padding:0 20px 48px;color:var(--text3
 
   <section class="card" id="sharing">
     <h2>3 · Sharing and shared display (opt-in, end-to-end encrypted)</h2>
+    <p><small>Sharing is a web-app feature; the installed Android app currently ships without it. The description below applies wherever the feature is present.</small></p>
     <p><strong>Share item</strong> encrypts the item on your device (AES-GCM) before it leaves, then stores only that encrypted copy on a relay operated by the developer on Cloudflare. The decryption key lives in the invitation link itself, not on the server. Recipient progress stays separate from yours, and you can revoke sharing from the item at any time.</p>
     <p><strong>Shared display</strong> lets you pair at most two screens (one full-app display, one glance display) by scanning a QR code from inside Tings. Tings publishes an encrypted, capped today/tomorrow agenda the paired screens can decrypt, and — only when a personal clone is signed in — a separately encrypted copy of the full library whose key is transferred only to that clone. Either signed-in screen can publish encrypted completion events. The relay can see that encrypted blobs exist, their sizes, and when they were updated, but cannot read item names, notes, places, or completion contents. You can revoke a display or the whole feed anytime in Settings.</p>
-    <p><small>Pairing credentials are random identifiers generated on your device. A push-notification relay feature is disabled in current builds; if it is ever enabled, it would send a push subscription and notification text for reminders you asked for.</small></p>
+    <p><small>Pairing credentials are random identifiers generated on your device.</small></p>
   </section>
 
   <section class="card" id="assistant">
