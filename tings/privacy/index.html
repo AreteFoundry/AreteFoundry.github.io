@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="color-scheme" content="light dark" />
+<meta name="robots" content="noindex" />
+<meta name="description" content="Privacy policy for Tings — the local-first habit, task and week-agenda planner. No account, no analytics, no ads. What stays on your device and what each optional feature sends." />
+<title>Tings · Privacy Policy</title>
+<link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+<style>
+/* Design tokens mirrored from the app's styles.css (same as tings/index.html) */
+:root{
+  --bg:#ffffff; --bg2:#f5f4f0; --bg3:#e8e7e2;
+  --text:#1a1a1a; --text2:#6b6a65; --text3:#9e9d98;
+  --border:rgba(0,0,0,0.11); --border2:rgba(0,0,0,0.2);
+  --radius:16px; --radius-sm:10px;
+  --teal:#0F6E56; --teal-bg:#E1F5EE; --teal-text:#085041;
+  --amber:#BA7517; --amber-bg:#FAEEDA; --amber-text:#633806;
+  --red:#A32D2D; --red-bg:#FCEBEB; --red-text:#791F1F;
+  --shadow:0 1px 2px rgba(0,0,0,0.04), 0 6px 24px rgba(0,0,0,0.06);
+  --maxw:840px;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#1c1c1e; --bg2:#2c2c2e; --bg3:#3a3a3c;
+    --text:#f2f2f7; --text2:#aeaeb2; --text3:#6e6e73;
+    --border:rgba(255,255,255,0.09); --border2:rgba(255,255,255,0.18);
+    --teal:#5DCAA5; --teal-bg:#085041; --teal-text:#9FE1CB;
+    --amber:#EF9F27; --amber-bg:#633806; --amber-text:#FAC775;
+    --red:#F09595; --red-bg:#791F1F; --red-text:#F7C1C1;
+    --shadow:0 1px 2px rgba(0,0,0,0.3), 0 10px 30px rgba(0,0,0,0.4);
+  }
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;scroll-padding-top:84px;}
+body{margin:0;background:var(--bg2);color:var(--text);
+  font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
+a{color:var(--teal);text-decoration:none;}a:hover{text-decoration:underline;}
+
+.topbar{position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:12px;
+  background:color-mix(in srgb,var(--bg2) 88%,transparent);
+  backdrop-filter:saturate(180%) blur(14px);-webkit-backdrop-filter:saturate(180%) blur(14px);
+  border-bottom:1px solid var(--border);padding:12px 20px;}
+.topbar .brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:17px;color:var(--text);text-decoration:none;}
+.topbar .brand:hover{text-decoration:none;}
+.topbar .brand img{width:28px;height:28px;}
+.topbar .brand small{font-weight:500;color:var(--text2);font-size:13px;}
+
+main{max-width:var(--maxw);margin:0 auto;padding:28px 20px 80px;}
+.hero h1{font-size:30px;margin:10px 0 6px;letter-spacing:-0.02em;}
+.hero p.lede{color:var(--text2);margin:0 0 8px;font-size:17px;}
+.updated{color:var(--text3);font-size:13.5px;margin:0 0 22px;}
+
+.summary{background:var(--teal-bg);color:var(--teal-text);border:1px solid color-mix(in srgb,var(--teal) 25%,transparent);
+  border-radius:var(--radius);padding:16px 20px;margin:0 0 26px;}
+.summary ul{margin:8px 0 0;padding-left:20px;}
+.summary li{margin:4px 0;}
+
+section.card{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);
+  box-shadow:var(--shadow);padding:22px 24px;margin:0 0 18px;}
+section.card h2{font-size:19px;margin:0 0 10px;letter-spacing:-0.01em;}
+section.card p{margin:8px 0;color:var(--text);}
+section.card p small, section.card li small{color:var(--text2);}
+section.card ul{margin:8px 0;padding-left:22px;}
+section.card li{margin:6px 0;}
+code{background:var(--bg3);border-radius:6px;padding:1px 6px;font-size:13.5px;}
+.tablewrap{overflow-x:auto;}
+table{border-collapse:collapse;width:100%;margin:10px 0 4px;font-size:14.5px;}
+th,td{text-align:left;border-bottom:1px solid var(--border);padding:8px 10px;vertical-align:top;}
+th{color:var(--text2);font-weight:600;font-size:13px;text-transform:uppercase;letter-spacing:0.04em;}
+td:first-child{white-space:nowrap;}
+footer{max-width:var(--maxw);margin:0 auto;padding:0 20px 48px;color:var(--text3);font-size:13.5px;}
+.toc{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 26px;padding:0;list-style:none;}
+.toc a{display:inline-block;background:var(--bg);border:1px solid var(--border);border-radius:999px;
+  padding:6px 14px;font-size:13.5px;color:var(--text2);}
+.toc a:hover{border-color:var(--border2);color:var(--text);text-decoration:none;}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <a class="brand" href="../">
+    <img src="../favicon.svg" alt="" />
+    Tings&nbsp;<small>· Privacy Policy</small>
+  </a>
+</header>
+
+<main>
+  <div class="hero">
+    <h1>Privacy Policy</h1>
+    <p class="lede">Tings is a local-first habit, task and week-agenda planner. Your plan lives on your device — there is no Tings account and no hidden backend for your list.</p>
+  </div>
+  <p class="updated">Last updated: October 5, 2026 · Applies to the Tings web app and the Tings Android app.</p>
+
+  <div class="summary">
+    <strong>Short version</strong>
+    <ul>
+      <li><strong>No account.</strong> Your habits, tasks, notes, logs, places and settings are stored only on your device.</li>
+      <li><strong>No analytics, no ads, no trackers, no crash reporting.</strong> Tings does not profile you and does not sell data — there is no data to sell.</li>
+      <li>A few optional features contact an outside service for one stated job (weather, address search, driving estimates, map tiles). Each request contains only what that job needs — never your habit list.</li>
+      <li>Sharing and shared display are opt-in and <strong>end-to-end encrypted</strong> on your device before anything leaves it.</li>
+      <li>The optional local assistant talks only to a model server <strong>you</strong> configure on your own network. There is no Tings cloud model.</li>
+    </ul>
+  </div>
+
+  <ul class="toc">
+    <li><a href="#on-device">On your device</a></li>
+    <li><a href="#services">Services each feature contacts</a></li>
+    <li><a href="#sharing">Sharing &amp; shared display</a></li>
+    <li><a href="#assistant">Local assistant (AI)</a></li>
+    <li><a href="#android">Android app</a></li>
+    <li><a href="#never">What Tings never does</a></li>
+    <li><a href="#feedback">Feedback</a></li>
+    <li><a href="#deletion">Deleting your data</a></li>
+    <li><a href="#changes">Changes &amp; contact</a></li>
+  </ul>
+
+  <section class="card" id="on-device">
+    <h2>1 · Data stored on your device</h2>
+    <p>Tings is a set of files; the site you open is the program. Your list is saved in your browser's own storage (<code>localStorage</code>) on the phone or computer you use — or in app-private storage in the Android app. It is not uploaded to a Tings inbox, and the person who put this site online cannot see your habits, notes, addresses, or logs.</p>
+    <ul>
+      <li><strong>No account.</strong> There is no sign-up, sign-in, or user profile.</li>
+      <li><strong>Location is not kept as history.</strong> Live GPS is used on your device to match you to a saved place. Raw GPS coordinates are not saved with your data; on Android, the optional closed-app refresh may keep the latest location fix on the device for at most ten minutes so reminders can follow you to a saved place.</li>
+      <li><strong>Backups are files you make.</strong> Settings → backup exports a file you keep yourself. There is no cloud backup.</li>
+      <li>Clearing the site's data, switching browsers, or uninstalling the app removes the list unless you exported a backup first.</li>
+    </ul>
+  </section>
+
+  <section class="card" id="services">
+    <h2>2 · Services each feature contacts</h2>
+    <p>These open services are contacted only when you use the matching feature, and each request contains only what that job needs. None of them receive your habit names, notes, logs, or schedules.</p>
+    <div class="tablewrap">
+    <table>
+      <tr><th>Feature</th><th>Service</th><th>What is sent</th></tr>
+      <tr>
+        <td>Weather &amp; air quality</td>
+        <td>Open-Meteo<br /><small>api.open-meteo.com, air-quality-api.open-meteo.com</small></td>
+        <td>Your saved home-city coordinates, and the pin of a saved place only when a planned item or travel leg is far from home. Not item names, schedules, logs, or live GPS. Forecasts are cached on your device.</td>
+      </tr>
+      <tr>
+        <td>Address or city search</td>
+        <td>Photon (Komoot) and Nominatim (OpenStreetMap)<br /><small>photon.komoot.io, nominatim.openstreetmap.org</small></td>
+        <td>The text you type in the search box. The one-time first city fill sends a coarse location (about 1&nbsp;km), not your live pin. Presence matching stays on your device.</td>
+      </tr>
+      <tr>
+        <td>Travel-time estimates</td>
+        <td>OSRM<br /><small>router.project-osrm.org</small></td>
+        <td>Two coordinates per estimate: two saved-place pins, or the live GPS origin plus a saved-place pin when estimating a drive from here. You can type minutes yourself instead.</td>
+      </tr>
+      <tr>
+        <td>Map picture</td>
+        <td>OpenStreetMap and Esri<br /><small>tile.openstreetmap.org, server.arcgisonline.com (World Imagery)</small></td>
+        <td>Standard tile requests for the area shown on screen.</td>
+      </tr>
+      <tr>
+        <td>App libraries</td>
+        <td>Public CDNs<br /><small>cdn.jsdelivr.net, unpkg.com</small></td>
+        <td>Tabler icons, Leaflet and PDF.js are loaded as code libraries. They receive no user data. Calendar PDF import is parsed in your browser; the file you pick is never uploaded.</td>
+      </tr>
+      <tr>
+        <td>App Store link naming</td>
+        <td>Apple<br /><small>itunes.apple.com/lookup</small></td>
+        <td>Only the numeric app id already inside a link you paste, and only when you paste one.</td>
+      </tr>
+    </table>
+    </div>
+    <p><small>Prayer times are calculated on your device from your city. Social, web and directions buttons (Google Maps, Apple Maps, WhatsApp, and similar) open links in your browser or the matching app when you tap them; Tings does not send them anything on its own.</small></p>
+  </section>
+
+  <section class="card" id="sharing">
+    <h2>3 · Sharing and shared display (opt-in, end-to-end encrypted)</h2>
+    <p><strong>Share item</strong> encrypts the item on your device (AES-GCM) before it leaves, then stores only that encrypted copy on a relay operated by the developer on Cloudflare (<code>habits-share.contactnabilkhan.workers.dev</code>). The decryption key lives in the invitation link itself, not on the server. Recipient progress stays separate from yours, and you can revoke sharing from the item at any time.</p>
+    <p><strong>Shared display</strong> lets you pair at most two screens (one full-app display, one glance display) by scanning a QR code from inside Tings. Tings publishes an encrypted, capped today/tomorrow agenda the paired screens can decrypt, and — only when a personal clone is signed in — a separately encrypted copy of the full library whose key is transferred only to that clone. Either signed-in screen can publish encrypted completion events. The relay can see that encrypted blobs exist, their sizes, and when they were updated, but cannot read item names, notes, places, or completion contents. You can revoke a display or the whole feed anytime in Settings.</p>
+    <p><small>Pairing credentials are random identifiers generated on your device. A browser push-relay feature exists in the code but is disabled in current builds; if it is ever enabled, it would send a push subscription and notification text for reminders you asked for.</small></p>
+  </section>
+
+  <section class="card" id="assistant">
+    <h2>4 · Local assistant (AI) — off by default</h2>
+    <p>The local assistant is optional and off by default. It talks only to a model server <strong>you</strong> configure — for example Ollama or LM Studio on your own computer, or a laptop on your Wi-Fi or Tailscale network. Tings only accepts private addresses (loopback, local network, or <code>*.ts.net</code> / <code>*.local</code>) and has no Tings cloud model.</p>
+    <p>Per request it sends: what you type, a short catalog of context (item names and times for today, saved-place <em>names</em>, weather-profile names, recent conversation turns), and tool-call results. It does <strong>not</strong> send your notes, logs, addresses, or coordinates. Clear requests are parsed on your device; suggested changes are shown to you and nothing is saved until you confirm. Turning it off in Settings stops all of this.</p>
+  </section>
+
+  <section class="card" id="android">
+    <h2>5 · Android app</h2>
+    <p>The Android app packages the same app and stores your data in app-private storage on the device. Its optional permissions work like this:</p>
+    <ul>
+      <li><strong>Notifications &amp; alarms</strong> (<span style="white-space:nowrap">POST_NOTIFICATIONS,</span> SCHEDULE_EXACT_ALARM): used only for reminders you configure per item — agenda reminders, ringing alarms and drop warnings. You choose Off, Notification or Ringing alarm per item edge; everything starts off.</li>
+      <li><strong>Location</strong> (coarse, fine, background — all optional): used to match you to a saved place and to let reminders follow you between places. Background refresh makes at most one balanced-power location request per run (about every 30 minutes, only when reminders and refresh are enabled), keeps the latest fix on the device for at most ten minutes, and never uploads it. Movement is not tracked as history, and there is no continuous GPS service. Refresh also works from your saved place without background location.</li>
+      <li><strong>Network:</strong> while closed, background agenda refresh may fetch weather — the app allowlists exactly the two Open-Meteo endpoints listed above and loads packaged assets only.</li>
+      <li>The background planner runs in an isolated headless view that cannot read or change your visible app data, load remote scripts, or navigate.</li>
+    </ul>
+  </section>
+
+  <section class="card" id="never">
+    <h2>6 · What Tings never does</h2>
+    <ul>
+      <li>No accounts, sign-ups, or user profiles.</li>
+      <li>No analytics, telemetry, or usage statistics.</li>
+      <li>No advertising or ad networks, and no data sale or data brokerage — there is no central copy of your data to sell.</li>
+      <li>No crash reporting or automatic error uploads.</li>
+      <li>No location history, and no background contact with any Tings server (there is no Tings server for your data).</li>
+      <li>No cookies for tracking; storage is limited to keeping your own list and settings on your device.</li>
+    </ul>
+    <p><small>Tings is not directed at children and does not knowingly collect personal information from anyone, since it collects no personal information at all.</small></p>
+  </section>
+
+  <section class="card" id="feedback">
+    <h2>7 · Feedback</h2>
+    <p>The send-feedback button on the About screen opens a Google Form in a new browser tab. Tings does not receive those answers, and nothing from your list is attached; Google collects whatever you type in the form. Please skip habit names, addresses, notes, and logs when writing feedback. You can leave the form without sending anything.</p>
+  </section>
+
+  <section class="card" id="deletion">
+    <h2>8 · Deleting your data</h2>
+    <ul>
+      <li><strong>Web:</strong> clear the site's data in your browser settings, or use Settings → backup to export a copy first.</li>
+      <li><strong>Android:</strong> uninstall the app, or clear its storage from Android's app info screen.</li>
+      <li><strong>Shared items and displays:</strong> revoke sharing from the item, or revoke a paired display or the whole shared feed in Settings. Revoking stops future updates and access; already-stored encrypted blobs age out on the relay.</li>
+      <li><strong>Backups:</strong> backup files are yours — delete them like any local file.</li>
+    </ul>
+  </section>
+
+  <section class="card" id="changes">
+    <h2>9 · Changes to this policy and contact</h2>
+    <p>If the app's data practices change, this page will be updated and the "last updated" date above will change. The app also shows an in-app summary of these same practices on the About → privacy screen.</p>
+    <p>Questions or requests about privacy: use the feedback form linked from About inside the app, or the <a href="https://forms.gle/KNnXKCH55VfzCNeo8" target="_blank" rel="noopener">feedback form</a> directly. — Arete Foundry</p>
+  </section>
+</main>
+
+<footer>
+  This page describes the Tings web app and the Tings Android app. The app is open source — anyone can read how it works.
+</footer>
+
+</body>
+</html>
