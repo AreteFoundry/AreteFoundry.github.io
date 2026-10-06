@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="color-scheme" content="light dark" />
+<meta name="description" content="How to delete your Tings data. Tings by Arete Foundry stores your planner only on your device — deleting the app's data or uninstalling deletes everything. No account, no server-side copy." />
+<title>Delete your Tings data · Arete Foundry</title>
+<link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+<style>
+/* Design tokens mirrored from the app's styles.css (same as tings/privacy) */
+:root{
+  --bg:#ffffff; --bg2:#f5f4f0; --bg3:#e8e7e2;
+  --text:#1a1a1a; --text2:#6b6a65; --text3:#9e9d98;
+  --border:rgba(0,0,0,0.11); --border2:rgba(0,0,0,0.2);
+  --radius:16px; --radius-sm:10px;
+  --teal:#0F6E56; --teal-bg:#E1F5EE; --teal-text:#085041;
+  --red:#A32D2D; --red-bg:#FCEBEB; --red-text:#791F1F;
+  --shadow:0 1px 2px rgba(0,0,0,0.04), 0 6px 24px rgba(0,0,0,0.06);
+  --maxw:840px;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#1c1c1e; --bg2:#2c2c2e; --bg3:#3a3a3c;
+    --text:#f2f2f7; --text2:#aeaeb2; --text3:#6e6e73;
+    --border:rgba(255,255,255,0.09); --border2:rgba(255,255,255,0.18);
+    --teal:#5DCAA5; --teal-bg:#085041; --teal-text:#9FE1CB;
+    --red:#F09595; --red-bg:#791F1F; --red-text:#F7C1C1;
+    --shadow:0 1px 2px rgba(0,0,0,0.3), 0 10px 30px rgba(0,0,0,0.4);
+  }
+}
+*{box-sizing:border-box;}
+body{margin:0;background:var(--bg2);color:var(--text);
+  font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
+a{color:var(--teal);text-decoration:none;}a:hover{text-decoration:underline;}
+
+.topbar{position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:12px;
+  background:color-mix(in srgb,var(--bg2) 88%,transparent);
+  backdrop-filter:saturate(180%) blur(14px);-webkit-backdrop-filter:saturate(180%) blur(14px);
+  border-bottom:1px solid var(--border);padding:12px 20px;}
+.topbar .brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:17px;color:var(--text);text-decoration:none;}
+.topbar .brand:hover{text-decoration:none;}
+.topbar .brand img{width:28px;height:28px;}
+.topbar .brand small{font-weight:500;color:var(--text2);font-size:13px;}
+
+main{max-width:var(--maxw);margin:0 auto;padding:28px 20px 80px;}
+h1{font-size:30px;margin:10px 0 6px;letter-spacing:-0.02em;}
+p.lede{color:var(--text2);margin:0 0 8px;font-size:17px;}
+.updated{color:var(--text3);font-size:13.5px;margin:0 0 22px;}
+
+section.card{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);
+  box-shadow:var(--shadow);padding:22px 24px;margin:0 0 18px;}
+section.card h2{font-size:19px;margin:0 0 12px;letter-spacing:-0.01em;}
+section.card p{margin:8px 0;}
+section.card ul,section.card ol{margin:8px 0;padding-left:22px;}
+section.card li{margin:8px 0;}
+.steps{counter-reset:step;margin:0;padding:0;list-style:none;}
+.steps li{counter-increment:step;position:relative;padding-left:44px;margin:14px 0;}
+.steps li::before{content:counter(step);position:absolute;left:0;top:0;width:30px;height:30px;
+  border-radius:50%;background:var(--teal-bg);color:var(--teal-text);font-weight:700;
+  display:flex;align-items:center;justify-content:center;font-size:15px;}
+.steps b{display:block;}
+.steps small{color:var(--text2);}
+.highlight{background:var(--teal-bg);color:var(--teal-text);border:1px solid color-mix(in srgb,var(--teal) 25%,transparent);
+  border-radius:var(--radius-sm);padding:14px 18px;margin:14px 0;}
+.deleted-kept{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+@media (max-width:560px){.deleted-kept{grid-template-columns:1fr;}}
+.deleted-kept>div{border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px 16px;}
+.deleted-kept h3{margin:0 0 6px;font-size:15.5px;}
+.deleted-kept .del h3{color:var(--red-text);}
+.deleted-kept .keep h3{color:var(--teal-text);}
+.deleted-kept ul{margin:0;padding-left:20px;font-size:14.5px;}
+code{background:var(--bg3);border-radius:6px;padding:1px 6px;font-size:13.5px;}
+footer{max-width:var(--maxw);margin:0 auto;padding:0 20px 48px;color:var(--text3);font-size:13.5px;}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <a class="brand" href="../">
+    <img src="../favicon.svg" alt="" />
+    Tings&nbsp;<small>· by Arete Foundry</small>
+  </a>
+</header>
+
+<main>
+  <h1>Delete your Tings data</h1>
+  <p class="lede">Tings is a local-first planner: your habits, tasks, logs, notes, places and settings live only on your device. There is no Tings account and no server-side copy of your data.</p>
+  <p class="updated">Last updated: October 5, 2026 · Applies to the Tings app by Arete Foundry</p>
+
+  <section class="card">
+    <h2>How to delete your data</h2>
+    <ol class="steps">
+      <li>
+        <b>(Optional) Export a backup first</b>
+        <small>In Tings, open <b>Settings → backup</b> to export a copy you can keep or re-import later. Skip this if you want everything gone.</small>
+      </li>
+      <li>
+        <b>Delete the app's data on your device</b>
+        <small><b>Installed app:</b> open your device's <b>Settings → Apps → Tings → Storage → Clear data</b> (or <b>Clear storage</b>). <b>Web app:</b> open your browser's site-settings for the Tings site and clear its site data.</small>
+      </li>
+      <li>
+        <b>…or simply uninstall the app</b>
+        <small>Uninstalling Tings removes the app together with all of its data.</small>
+      </li>
+    </ol>
+    <div class="highlight"><strong>That's the whole process.</strong> Because your planner is stored only on your device, clearing the app's data or uninstalling deletes everything — no request, waiting period, or account cancellation needed.</div>
+  </section>
+
+  <section class="card">
+    <h2>What is deleted, and what is kept</h2>
+    <div class="deleted-kept">
+      <div class="del">
+        <h3>Deleted — all of it</h3>
+        <ul>
+          <li>Habits, tasks, schedules and plans</li>
+          <li>Completion logs and history</li>
+          <li>Notes on your items</li>
+          <li>Saved places and addresses</li>
+          <li>Reminder and alarm choices</li>
+          <li>All app settings and preferences</li>
+        </ul>
+      </div>
+      <div class="keep">
+        <h3>Kept — nothing</h3>
+        <ul>
+          <li>No account data — there are no Tings accounts</li>
+          <li>No server-side copy — Arete Foundry does not operate a server that stores your planner</li>
+          <li>No analytics, crash reports, or tracking data</li>
+          <li>No retention period — after deletion, nothing remains with us</li>
+        </ul>
+      </div>
+    </div>
+    <p style="margin-top:14px"><small>Two small notes: backups you exported yourself are ordinary files on your device — delete them like any file. If you used the optional encrypted sharing in the web app, revoke it from the item in Settings; the encrypted relay copies are unreadable to us and age out of the relay. Some features (weather, address search, driving estimates) send a one-time request to an outside service when you use them; those requests are not retained by Tings.</small></p>
+  </section>
+
+  <section class="card">
+    <h2>Request deletion or ask a question</h2>
+    <p>You do not need to ask us to delete your data — the steps above remove everything instantly. If you would still like to send a deletion request or ask about your data, use the <a href="https://forms.gle/KNnXKCH55VfzCNeo8" target="_blank" rel="noopener">feedback form</a> (also reachable from <b>About → send feedback</b> inside the app). We will confirm that no data is retained.</p>
+    <p>See also the full <a href="../privacy/">Tings privacy policy</a>.</p>
+  </section>
+</main>
+
+<footer>
+  Tings · Arete Foundry · <a href="../privacy/">Privacy policy</a>
+</footer>
+
+</body>
+</html>
