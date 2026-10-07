@@ -10,6 +10,31 @@
 > The next agent should open it on desktop **and** a phone and confirm visual parity
 > + touch flow.
 
+## 0. Addendum — 2026-10-07 status refresh
+
+- **The browser gate above has now been smoke-run** (Playwright Chromium, 390×844
+  and 1280×900). The demo loads, the phone frame renders, and 22 interactive
+  buttons mount on both viewports. Two console/page errors remain **open bugs** in
+  `onboarding/app.js` + markup: `Cannot set properties of null (setting 'media')`
+  (a `media` write on a missing element — likely the theme `<link>`/stylesheet
+  lookup) and `strips.forEach is not a function` (a `querySelectorAll` returning
+  one node instead of a list, or a renamed container). Nothing visibly breaks the
+  first paint, but both should be fixed before linking the tour from the live guide.
+- **`styles-tings.css` is stale.** The real app split its single `styles.css` into
+  `css/*.css` (~11.5k lines total: tokens, chrome, sheets, sweeps, …). The vendored
+  4,420-line copy predates the split and the ~595 app commits since 2025-09-05.
+  Resyncing the demo is a project of its own (see §8 loop); until then treat the
+  demo as a **prototype**, not a pixel-parity mirror.
+- **Site-level updates (this repo, Oct 2026):** `tings/favicon.svg` replaced with
+  the current Tings brand icon (rounded dark tile, return arrow, eight-point star —
+  from the app's `icons/` set; every page references the same file). Added
+  `apple-touch-icon.png` + `icon-512.png` + OG/Twitter meta to `tings/index.html`,
+  a new **root `index.html`** landing (the org root used to 404), a guide section
+  for the **assistant** (`#assistant`, `#assistant-setup`) and **find in details**
+  (`#detail-search`), and refreshed all 21 `docs-img/*.png` via the updated
+  `docs-img/shot.js` (image URLs bumped to `?v=3`).
+
+
 ## 1. Goal & scope
 
 Build an interactive, phone-shaped **onboarding demo** for the Tings app that walks

@@ -1,7 +1,7 @@
 /**
  * docs-img generator for the Tings help & docs site.
  * Drives the live app with Playwright, seeds realistic sample data,
- * and captures the 9 screenshots the doc placeholders expect.
+ * and captures the 21 screenshots the doc placeholders expect.
  *
  *   cd ../../lanbeee.github.io/tings && npx serve -l 4181 -s .
  *   NODE_PATH=../../lanbeee.github.io/node_modules node shot.js
@@ -440,6 +440,29 @@ function log(ok, name, extra = '') { results.push({ ok, name, extra }); console.
   catch (e) { log(false, 'detail-schedule.png', e.message); }
   try { await detailPageShot('actions', 'detail-actions.png'); }
   catch (e) { log(false, 'detail-actions.png', e.message); }
+
+  // 20 ── assistant.png (ask Tings welcome state, no model needed) ──────────
+  try {
+    const page = await browser.newPage({ viewport: PHONE, isMobile: true, hasTouch: true, deviceScaleFactor: 3 });
+    await seed(page);
+    await page.evaluate(() => { updateSortSetting({ localAssistant: true }, { renderNow: false, sync: false }); });
+    await page.waitForFunction(() => typeof window.openAssistantSheet === 'function' || typeof window.tingsLoadAssistant === 'function', null, { timeout: 10000 });
+    await page.evaluate(() => { if (typeof window.tingsLoadAssistant === 'function') return window.tingsLoadAssistant(); });
+    await page.waitForFunction(() => typeof window.openAssistantSheet === 'function', null, { timeout: 15000 });
+    await page.evaluate(() => openAssistantSheet());
+    await page.waitForSelector('#assistant-sheet.open', { timeout: 8000 });
+    await page.waitForSelector('.assistant-suggest', { timeout: 8000 });
+    await page.waitForTimeout(500);
+    const sheet = page.locator('#assistant-sheet .assistant-sheet');
+    const h = await sheet.evaluate(el => el.scrollHeight);
+    await sheet.screenshot({ path: path.join(OUT, 'assistant.png'), clip: { x: 0, y: 0, width: PHONE.width, height: Math.min(h, 880) } });
+    await page.close();
+    log(true, 'assistant.png');
+  } catch (e) { log(false, 'assistant.png', e.message); }
+
+  // 21 ── assistant-settings.png (Settings → local assistant) ───────────────
+  try { await settingsSectionShot(browser, 'settings-assistant-head', 'assistant-settings.png'); }
+  catch (e) { log(false, 'assistant-settings.png', e.message); }
 
   await browser.close();
   console.log('\n──── summary ────');

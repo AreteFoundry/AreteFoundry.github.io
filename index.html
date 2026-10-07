@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="color-scheme" content="light dark" />
+<meta name="description" content="Arete Foundry — small, local-first tools. Home of Tings, the habit, task and week-agenda planner." />
+<title>Arete Foundry</title>
+<link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="./apple-touch-icon.png" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.10.0/dist/tabler-icons.min.css" />
+<script>
+(function(l){l.media='not all';l.onload=function(){l.media='all'};l.onerror=function(){l.remove()}})(document.querySelector('link[href*="tabler-icons"]'));
+</script>
+<meta property="og:title" content="Arete Foundry" />
+<meta property="og:description" content="Small, local-first tools. Home of Tings — the habit, task and week-agenda planner." />
+<meta property="og:image" content="https://aretefoundry.github.io/tings/icon-512.png" />
+<meta property="og:url" content="https://aretefoundry.github.io/" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<style>
+  :root{
+    --bg:#f5f4f0; --card:#ffffff; --text:#1a1a1a; --text2:#6b6a65;
+    --border:rgba(0,0,0,0.11); --accent:#0F6E56;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --bg:#111110; --card:#1c1c1e; --text:#f5f4f0; --text2:#aeaeb2; --border:rgba(255,255,255,0.12); }
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; min-height:100vh; display:flex; align-items:center; justify-content:center;
+    background:var(--bg); color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    padding:24px;
+  }
+  main{width:100%; max-width:420px}
+  .brand{display:flex; align-items:center; gap:14px; margin-bottom:22px}
+  .brand img{width:56px; height:56px; border-radius:14px}
+  .brand h1{font-size:22px; margin:0; letter-spacing:-0.01em}
+  .brand p{margin:2px 0 0; color:var(--text2); font-size:14px}
+  .card{
+    display:block; text-decoration:none; color:inherit;
+    background:var(--card); border:1px solid var(--border); border-radius:18px;
+    padding:18px 20px; margin-bottom:12px;
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .card:hover{transform:translateY(-1px); box-shadow:0 6px 18px rgba(0,0,0,0.08)}
+  .card h2{margin:0; font-size:16px; display:flex; align-items:center; gap:8px}
+  .card h2 .ti{color:var(--accent)}
+  .card p{margin:6px 0 0; color:var(--text2); font-size:13.5px; line-height:1.45}
+  .card .go{color:var(--accent); font-weight:600; font-size:13px; display:inline-block; margin-top:10px}
+  footer{margin-top:20px; color:var(--text2); font-size:12.5px; text-align:center}
+  footer a{color:inherit}
+</style>
+</head>
+<body>
+<main>
+  <div class="brand">
+    <img src="./favicon.svg" alt="Arete Foundry logo" />
+    <div>
+      <h1>Arete Foundry</h1>
+      <p>Small, local-first tools.</p>
+    </div>
+  </div>
+  <a class="card" href="./tings/">
+    <h2><i class="ti ti-list-details"></i> Tings</h2>
+    <p>A local-first planner for habits, tasks and the week ahead — with an ask-anything assistant, weather-aware planning, places and a shared display mode. Everything stays on your device.</p>
+    <span class="go">Help &amp; documentation →</span>
+  </a>
+  <a class="card" href="https://lanbeee.github.io/habits/">
+    <h2><i class="ti ti-app-window"></i> Open the web app</h2>
+    <p>Use Tings right in the browser, or install it as an app. Works offline.</p>
+    <span class="go">lanbeee.github.io/habits →</span>
+  </a>
+  <footer>© 2026 Arete Foundry</footer>
+</main>
+<script>
+(function(l){l.media='not all';l.onload=function(){l.media='all'};l.onerror=function(){l.remove()}})(document.querySelector('link[href*="tabler"]')||document.createElement('link'));
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.10.0/dist/tabler-icons.min.js"></script>
+</body>
+</html>
